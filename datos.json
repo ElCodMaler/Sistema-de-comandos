@@ -1,0 +1,79 @@
+{
+    "C:":{
+        "Usuarios":{
+            "Carlos":{
+                "documentos":{
+                    "tareas.txt": "Comprar carne, limpiar el carro, pasear al perro, aprender piano, hablar con la familia",
+                    "contra.txt": "Netflix: Pahvt5412t4c, Amazon: rybYbsc4cbrt",
+                    "universidad":{
+                        "tesis.doc": "El hombre y el medio ambiente, la contaminacion del agua esta afectando....",
+                        "algebra.pdf": "Las matrices inversas se representan como..."
+                    }
+                },
+                "escritorio":{
+                    "universidad":{
+                        "tesis.doc": "El hombre y el medio ambiente, la contaminacion del agua esta afectando....",
+                        "algebra.pdf": "Las matrices inversas se representan como..."
+                    },
+                    "tareas.txt": "Comprar carne, limpiar el carro, pasear al perro, aprender piano, hablar con la familia"
+                },
+                "imagenes":{
+                    "en la playa.jpg": "Ah8g01d0f51sdsf0d5",
+                    "mi perro.jpg": "Eclsc858dd20d5e1c0d"
+                },
+                "video":{
+                    "patinando.mp4": "0205ew0rdiei1d5ed0e5",
+                    "nadando.mp4": "qpf05ef0gs5f3herj5g0wt4"
+                },
+                "musica":{
+                    "martin Garrix.mp3": "Asdmdvwem50wef51we50c",
+                    "alesso": "ws0dew20w5f02e5d0wefe2",
+                    "skrillex": "ew5d0wdf0we5d0as5c4ew0d"
+                }
+            },
+            "Maria":{
+                "documentos":{
+                    "tareas.txt": "Limpiar, cocinar, visitar a mi tia, ir a la iglesia",
+                    "contra.txt": "Disneyplus: Patina55d, Amazon: 2045155",
+                    "colegio":{
+                        "tesis.doc": "La termodinamica aplicada en plantas es una....",
+                        "dibujo.pdf": "los colores primarios son..."
+                    },
+                    "Musica": {
+                        "mi primer sencillo.mp4": "IOmweidfmwdiofmwe1s2",
+                        "el corazon se acelera.mp4": "wd15f0e65f0e5rw0rw5v0w"
+                    }
+                },
+                "escritorio":{
+                    "tareas.txt": "Limpiar, cocinar, visitar a mi tia, ir a la iglesia",
+                    "colegio":{
+                        "tesis.doc": "La termodinamica aplicada en plantas es una....",
+                        "dibujo.pdf": "los colores primarios son..."
+                    },
+                    "Musica": {
+                        "mi primer sencillo.mp4": "IOmweidfmwdiofmwe1s2",
+                        "el corazon se acelera.mp4": "wd15f0e65f0e5rw0rw5v0w"
+                    }
+                },
+                "imagenes":{
+                    "mi gato.jpg": "e5d0ewf50e4w4c0e24d0wef",
+                    "con mis amigas.jpg": "sa5d1ewc0we5c0xcqewd0ef5as0c2e"
+                },
+                "video":{
+                    "las estrellas.mp4": "5qs0xqe5wd0asx0qew5xqs5d2",
+                    "nada.mp4": "sadkcwdni0we5c0erw5rf"
+                },
+                "musica":{
+                }
+            }
+        }
+    },
+    "USB:":{
+        "mi primer sencillo.mp4": "IOmweidfmwdiofmwe1s2",
+        "mi familia.jpg": "dsjcndwic0wd50r3c5v0er",
+        "musica alegre": {
+            "Pharrell Williams.mp4": "sd05w0fds540f3e4cew5f0",
+            "amor prohivido.mp4": "sa0w5d0fwd5f0we0f3"
+        }
+    }
+}
