@@ -27,8 +27,8 @@
                 },
                 "musica":{
                     "martin Garrix.mp3": "Asdmdvwem50wef51we50c",
-                    "alesso": "ws0dew20w5f02e5d0wefe2",
-                    "skrillex": "ew5d0wdf0we5d0as5c4ew0d"
+                    "alesso.mp3": "ws0dew20w5f02e5d0wefe2",
+                    "skrillex.mp3": "ew5d0wdf0we5d0as5c4ew0d"
                 }
             },
             "Maria":{
@@ -62,8 +62,6 @@
                 "video":{
                     "las estrellas.mp4": "5qs0xqe5wd0asx0qew5xqs5d2",
                     "nada.mp4": "sadkcwdni0we5c0erw5rf"
-                },
-                "musica":{
                 }
             }
         }
