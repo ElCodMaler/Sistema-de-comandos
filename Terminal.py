@@ -68,7 +68,7 @@ class introducirDatos(Carpeta, Fichero, Unidad):
     def leerJson(self, valorJson):
         for llave, valor in valorJson.items():
             if self.evaluarAtributos(valor):
-                print(f' la carpeta {llave} contiene: {len(valor)} archivos')
+                #print(f' la carpeta {llave} contiene: {len(valor)} archivos')
                 listaC, listaF = self.listaDatos(valor)
                 peso = self.sumaFichero(valor,self.peso)
                 self.carpetas.append(Carpeta(1, str(llave), listaF, listaC, peso))
@@ -79,7 +79,7 @@ class introducirDatos(Carpeta, Fichero, Unidad):
                 self.unidades.append(Unidad(self.idUnidad, str(llave), 400, 400, listaC))
                 self.idUnidad = self.idUnidad + 1
             else:
-                print(f'{llave} es un archivo')
+                #print(f'{llave} es un archivo')
                 extencion = self.extencion(llave)
                 peso = self.pesoKb(valor)
                 self.ficheros.append(Fichero(self.idFichero, str(llave), extencion, peso, valor))
