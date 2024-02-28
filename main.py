@@ -1,4 +1,4 @@
-from tools.Sistema import baseDatos
+from tools.Sistema import BaseDatos
 import json
 #clase donde se usaran los comandos del sistema
 class Terminal(baseDatos):

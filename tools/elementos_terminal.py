@@ -16,33 +16,42 @@ class Fichero:
         self.extencion = extencion
         self.fecha = datetime.datetime.now()
         self.datos = datos
+
     #metodos GET
     def getId(self) -> int:
         return self.id
+    
     def getNombre(self) -> str:
         return self.nombre
+    
     def getFechaCreada(self) -> datetime:
         return self.fecha
-    def getExtencion(self) -> int:
+    
+    def getExtencion(self) -> str:
         return self.extencion
+    
     def getPeso(self) -> int:
         return self.peso
+    
     def getDatos(self) -> str:
         return self.datos 
     #metodos SET
+    def setNombre(self, nombre: str):
+        self.nombre = nombre
+        self.setFechaModificada()
     #la diferencia de este metodo a los demas es que se actualizara la fecha de acuerdo a alguna modificacion que se
     #realice
     def setFechaModificada(self):
         self.fecha = datetime.datetime.now()
-    def setNombre(self, nombre: str):
-        self.nombre = nombre
-        self.setFechaModificada()
+
     def setExtencion(self, extencion: str):
         self.extencion = extencion
         self.setFechaModificada()
+
     def setPeso(self, peso: int):
         self.peso = peso
         self.setFechaModificada()
+
     def setDatos(self, datos: str):
         self.datos = datos
         self.setFechaModificada()
@@ -63,34 +72,45 @@ class Carpeta:
         self.ficheros = Fichero
         self.listaCarpetas = Carpeta
         self.pesoTotal = pesoTotal
+
     #metodos GET
     def getId(self) -> int:
         return self.id
+    
     def getNombre(self) -> str:
         return self.nombre
+    
     def getFechaCreada(self) -> datetime:
         return self.fechaCreada
+    
     def getFicheros(self) -> list[Fichero]:
         return self.ficheros
+    
     def getListaCarpetas(self) -> list:
         return self.listaCarpetas
+    
     def getPesoTotal(self) -> int:
         return self.pesoTotal
+    
     #metodos SET
     def setNombre(self, nombre: str):
         self.nombre = nombre  
+
     def setFichero(self, fiche: list[Fichero] | Fichero):
         if type(fiche) == Fichero:
             self.ficheros.append(fiche)
         else:
             self.ficheros = fiche
+
     def setCarpeta(self, carpe: list | object):
         if type(carpe) == Carpeta:
             self.ficheros.append(carpe)
         else:
             self.ficheros = carpe
+
     def setPesoTotal(self, peso: int):
         self.pesoTotal = peso
+        
 #clase UNIDAD
 class Unidad:
     '''
@@ -109,29 +129,41 @@ class Unidad:
         self.espacioDisponible = espacioDisponible
         self.carpetas = carpetas
         self.tipo = tipo
+
     #metodos GET
     def getId(self) -> int:
         return self.id
+    
     def getNombre(self) -> str:
         return self.nombre
+    
     def getFechaCreada(self) -> datetime:
         return self.fechaCreada
+    
     def getCapacidadTotal(self) -> int:
         return self.capacidadTotal
+    
     def getEspacioDisponible(self) -> int:
         return self.espacioDisponible
+    
     def getCarpetas(self) -> list[Carpeta]:
         return self.carpetas
+    
     def getTipo(self) -> str:
         return self.tipo
+    
     #metodos SET
     def setNombre(self, nombre: str):
         self.nombre = nombre
+
     def setCapacidadTotal(self, capacidadT: int):
         self.capacidadTotal = capacidadT
+
     def setEspacioDisponible(self, espacio: int):
         self.espacioDisponible = espacio
+
     def setCarpetas(self, listaC: list[Carpeta]):
         self.carpetas = listaC
+
     def setTipo(self, tipo: str):
         self.tipo = tipo

@@ -1,0 +1,27 @@
+{
+    "doc1":{
+        "id": 1,
+        "nombre": "Documentos",
+        "peso": 0
+    },
+    "doc2":{
+        "id": 2,
+        "nombre": "Escritorio",
+        "peso": 0
+    },
+    "doc3":{
+        "id": 3,
+        "nombre": "Fotos",
+        "peso": 0
+    },
+    "doc4":{
+        "id": 4,
+        "nombre": "Videos",
+        "peso": 0
+    },
+    "doc5":{
+        "id": 5,
+        "nombre": "musica",
+        "peso": 0
+    }
+}

@@ -24,10 +24,9 @@ class Comando:
         self.descripcion = descrip
     def setRequicito(self, requicito):
         self.requicito = requicito
-#los comandos
-def usarComandos(nombreU, ubicacion):
-    lista_comandos = []
-    requicito1 = ['dir',nombreU,ubicacion,'asc']
-    requicito2 = ['dir',nombreU,ubicacion,'desc']
-    lista_comandos.append(Comando(1,'asc','Organiza las carpetas y ficheros de menor a mayor cantidad de espacio ocupado',requicito1))
-    lista_comandos.append(Comando(2,'desc','Organiza las carpetas y los ficheros de mayor a menor cantidad de espacio ocupado',requicito2))
+#clase lista de comandos
+class Lista_Comandos:
+    def __init__(self) -> None:
+        pass
+    #la lista de los comandos
+    
