@@ -16,7 +16,7 @@ class Fichero:
         self.extencion = extencion
         self.fecha = datetime.datetime.now()
         self.datos = datos
-    #metodos get
+    #metodos GET
     def getId(self) -> int:
         return self.id
     def getNombre(self) -> str:
@@ -29,7 +29,7 @@ class Fichero:
         return self.peso
     def getDatos(self) -> str:
         return self.datos 
-    #metodos set
+    #metodos SET
     #la diferencia de este metodo a los demas es que se actualizara la fecha de acuerdo a alguna modificacion que se
     #realice
     def setFechaModificada(self):
@@ -56,14 +56,14 @@ class Carpeta:
     + pesoTotal: un numero que represente la cantidad de datos que almacena esta carpeta
     + fechaCreada: la fecha en que se creo el objeto, usando la
     '''
-    def __init__(self, id: int, nombre: str, ficheros: list[Fichero] | None, listaCarpetas: list | None, pesoTotal: int):
+    def __init__(self, id: int, nombre: str, pesoTotal: int):
         self.id = id
         self.nombre = nombre
         self.fechaCreada = datetime.datetime.now()
-        self.ficheros = ficheros
-        self.listaCarpetas = listaCarpetas
+        self.ficheros = Fichero
+        self.listaCarpetas = Carpeta
         self.pesoTotal = pesoTotal
-    #metodos get
+    #metodos GET
     def getId(self) -> int:
         return self.id
     def getNombre(self) -> str:
@@ -76,19 +76,19 @@ class Carpeta:
         return self.listaCarpetas
     def getPesoTotal(self) -> int:
         return self.pesoTotal
-    #metodos set
+    #metodos SET
     def setNombre(self, nombre: str):
         self.nombre = nombre  
-    def setFicheros(self, fiche: list[Fichero] | Fichero):
+    def setFichero(self, fiche: list[Fichero] | Fichero):
         if type(fiche) == Fichero:
             self.ficheros.append(fiche)
         else:
             self.ficheros = fiche
-    def setListaCarpetas(self, listaC: list | object):
-        if type(listaC) == Carpeta:
-            self.ficheros.append(listaC)
+    def setCarpeta(self, carpe: list | object):
+        if type(carpe) == Carpeta:
+            self.ficheros.append(carpe)
         else:
-            self.ficheros = listaC
+            self.ficheros = carpe
     def setPesoTotal(self, peso: int):
         self.pesoTotal = peso
 #clase UNIDAD
@@ -109,7 +109,7 @@ class Unidad:
         self.espacioDisponible = espacioDisponible
         self.carpetas = carpetas
         self.tipo = tipo
-    #metodos get
+    #metodos GET
     def getId(self) -> int:
         return self.id
     def getNombre(self) -> str:
@@ -124,7 +124,7 @@ class Unidad:
         return self.carpetas
     def getTipo(self) -> str:
         return self.tipo
-    #metodos set
+    #metodos SET
     def setNombre(self, nombre: str):
         self.nombre = nombre
     def setCapacidadTotal(self, capacidadT: int):
