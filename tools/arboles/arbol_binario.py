@@ -1,4 +1,5 @@
 from tools.elementos_terminal import Carpeta
+
 class NodoBi:
     """
     + carpeta: el objeto Carpeta se agrega a los nodos
@@ -8,8 +9,8 @@ class NodoBi:
     """
     def __init__(self, carpeta: Carpeta):
         self.carpeta = carpeta
-        self.izquierda = None
-        self.derecha = None
+        self.izquierda: Carpeta = None
+        self.derecha: Carpeta = None
         self.altura = 1
 #clase Folder sistem
 class FolderSistem:
@@ -21,6 +22,11 @@ class FolderSistem:
         if not nodo:
             return 0
         return nodo.altura
+    #
+    def obtener_balance(self, nodo: NodoBi):
+        if not nodo:
+            return 0
+        return self.obtener_altura(nodo.izquierda) - self.obtener_altura(nodo.derecha)
     #
     def rotar_derecha(self, z: NodoBi):
         y = z.izquierda
@@ -62,7 +68,18 @@ class FolderSistem:
         
         nodo.altura = 1 + max(self.obtener_altura(nodo.izquierda),self.obtener_altura(nodo.derecha))
 
-        balance = self.obtener
+        balance = self.obtener_balance(nodo)
+
+        if balance > 1 and carpeta.getPesoTotal() < nodo.izquierda.getPesoTotal():
+            return self.rotar_derecha(nodo)
+        elif balance < -1 and carpeta.getPesoTotal() > nodo.derecha.getPesoTotal():
+            return self.rotar_izquierda(nodo)
+        elif balance > 1 and carpeta.getPesoTotal() > nodo.izquierda.getPesoTotal():
+            return self.rotar_derecha(nodo)
+        elif balance < -1 and carpeta.getPesoTotal() < nodo.derecha.getPesoTotal():
+            return self.rotar_izquierda(nodo)
+        else:
+            return nodo
 
 
     def in_orden(self, nodo: NodoBi):
@@ -72,3 +89,10 @@ class FolderSistem:
             self.in_orden(nodo.derecha)
 
 #ejemplo 
+fs = FolderSistem()
+fs.insertar(Carpeta(1,'Carlos',15))
+fs.insertar(Carpeta(2,'Maria',7))
+fs.insertar(Carpeta(3,'Jose',45))
+fs.insertar(Carpeta(4,'Carlos',11))
+print(fs.raiz)
+

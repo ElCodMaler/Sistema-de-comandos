@@ -1,7 +1,7 @@
 from tools.Sistema import BaseDatos
 import json
 #clase donde se usaran los comandos del sistema
-class Terminal(baseDatos):
+class Terminal(BaseDatos):
     def __init__(self, archivoJson):
         self.bd = baseDatos(archivoJson)
         self.carpetas = self.bd.getListaCarpetas()

@@ -24,7 +24,7 @@ class Fichero:
     def getNombre(self) -> str:
         return self.nombre
     
-    def getFechaCreada(self) -> datetime:
+    def getFechaCreada(self) -> datetime.datetime:
         return self.fecha
     
     def getExtencion(self) -> str:
