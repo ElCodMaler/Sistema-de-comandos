@@ -27,6 +27,12 @@ class FolderSistem:
         if not nodo:
             return 0
         return self.obtener_altura(nodo.izquierda) - self.obtener_altura(nodo.derecha)
+    #buscamos una carpeta recorriendo el arbol
+    def buscar_carpeta(self, nombre: str, nodo: NodoBi):
+        if not nodo:
+            return None
+        if nodo.carpeta.getNombre() == nombre or self.buscar_carpeta(nombre, nodo.izquierda) or self.buscar_carpeta(nombre, nodo.derecha):
+            return nombre  
     #metodo que cambiara el orden en que estan asignados los Nodos en el arbol
     def rotar_derecha(self, z: NodoBi):
         y = z.izquierda
@@ -72,14 +78,13 @@ class FolderSistem:
         #balanceando el arbol de acuerdo a su peso
         if balance > 1 and carpeta.getPesoTotal() < nodo.izquierda.carpeta.getPesoTotal():
             return self.rotar_derecha(nodo)
-        elif balance < -1 and carpeta.getPesoTotal() > nodo.derecha.carpeta.getPesoTotal():
+        if balance < -1 and carpeta.getPesoTotal() > nodo.derecha.carpeta.getPesoTotal():
             return self.rotar_izquierda(nodo)
-        elif balance > 1 and carpeta.getPesoTotal() > nodo.izquierda.carpeta.getPesoTotal():
+        if balance > 1 and carpeta.getPesoTotal() > nodo.izquierda.carpeta.getPesoTotal():
             return self.rotar_derecha(nodo)
-        elif balance < -1 and carpeta.getPesoTotal() < nodo.derecha.carpeta.getPesoTotal():
+        if balance < -1 and carpeta.getPesoTotal() < nodo.derecha.carpeta.getPesoTotal():
             return self.rotar_izquierda(nodo)
-        else:
-            return nodo
+        return nodo
     #metodo que imprime los datos en orden de menor a mayor
     def in_orden(self, nodo: NodoBi):
         if nodo:
