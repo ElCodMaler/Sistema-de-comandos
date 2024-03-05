@@ -12,7 +12,7 @@ class NodoBi:
         self.izquierda: NodoBi = None
         self.derecha: NodoBi = None
         self.altura = 1
-#clase del sistema de Directorios
+#clase del sistema de Directorios(ARBOL BINARIO)
 class FolderSistem:
     #+ raiz: el valor raiz de la serie de folders
     def __init__(self):
@@ -32,7 +32,11 @@ class FolderSistem:
         if not nodo:
             return None
         if nodo.carpeta.getNombre() == nombre or self.buscar_carpeta(nombre, nodo.izquierda) or self.buscar_carpeta(nombre, nodo.derecha):
-            return nombre  
+            return nombre
+    #navegar
+    def navegar(self, ruta):
+        if ruta == '/':
+            return 
     #metodo que cambiara el orden en que estan asignados los Nodos en el arbol
     def rotar_derecha(self, z: NodoBi):
         y = z.izquierda
