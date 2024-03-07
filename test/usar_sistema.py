@@ -1,6 +1,6 @@
-from TDA.sistema_Unidades import Sistema
+from TDA.sistema import Sistema
 from tools.elementos_terminal import Unidad, Carpeta
-from test.usar_arbol_binario import fs
+from test.usar_sistema_carpetas import fs
 #ejemplo de su uso
 #INICIALIZAR sistema
 sis = Sistema()

@@ -5,7 +5,7 @@ class Nodo:
     """
     + unidad: donde se asignaran los objetos Unidad
     + connect: donde se va a enlazar un nodo con el siguiente nodo
-    + raiz_fs: donde se le asignara la raiz del un fileSystem
+    + folderS: donde se le asignara la raiz de un objeto FolderSisteme
     """
     def __init__(self, unidad: Unidad):
         self.unidad = unidad
