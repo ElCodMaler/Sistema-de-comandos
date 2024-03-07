@@ -15,8 +15,9 @@ class NodoBi:
 #clase del sistema de Directorios(ARBOL BINARIO)
 class FolderSistem:
     #+ raiz: el valor raiz de la serie de folders
-    def __init__(self):
-        self.raiz = None
+    def __init__(self, userName: str):
+        self.raiz = NodoBi(Carpeta(0,userName,0))
+        self.user = userName
     #metodo que retornara la longitud del arbol
     def obtener_altura(self, nodo: NodoBi):
         if not nodo:
@@ -32,11 +33,20 @@ class FolderSistem:
         if not nodo:
             return None
         if nodo.carpeta.getNombre() == nombre or self.buscar_carpeta(nombre, nodo.izquierda) or self.buscar_carpeta(nombre, nodo.derecha):
-            return nombre
-    #navegar
-    def navegar(self, ruta):
-        if ruta == '/':
-            return 
+            return nodo
+    #recorrer la lista enlazada y retornar la ultima ubicacion de carpetas
+    def navegar(self, ruta: str):
+        if ruta == self.user:
+            return self.raiz
+        partes_ruta = ruta.split('/')
+        carpeta_actual = self.raiz
+        for parte in partes_ruta:
+            if not parte:
+                print('falta asignar el directorio al cual quiere accesar...')
+            carpeta_actual = self.buscar_carpeta(parte,carpeta_actual)
+            if not carpeta_actual:
+                return None
+        return carpeta_actual
     #metodo que cambiara el orden en que estan asignados los Nodos en el arbol
     def rotar_derecha(self, z: NodoBi):
         y = z.izquierda
@@ -62,17 +72,17 @@ class FolderSistem:
 
         return y
     #metodo principal donde se van a insertar las carpetas
-    def insertar(self, carpeta: Carpeta):
-        self.raiz = self.insertar_Carpeta(carpeta, self.raiz)
-    #metodo donde se iran conectando los nodos a desde la raiz
-    def insertar_Carpeta(self, carpeta: Carpeta, nodo: NodoBi):
+    def insertar_Carpeta(self, carpeta: Carpeta):
+        self.raiz = self.insertar_nodo(carpeta, self.raiz)
+    #metodo donde se iran conectando los nodos desde la raiz
+    def insertar_nodo(self, carpeta: Carpeta, nodo: NodoBi):
         if not nodo:
             return NodoBi(carpeta)
         #ordenando los objetos de izquierda a derecha de acuerdo a su peso
         if carpeta.getPesoTotal() < nodo.carpeta.getPesoTotal():
-            nodo.izquierda = self.insertar_Carpeta(carpeta, nodo.izquierda)
+            nodo.izquierda = self.insertar_nodo(carpeta, nodo.izquierda)
         elif carpeta.getPesoTotal() > nodo.carpeta.getPesoTotal():
-            nodo.derecha = self.insertar_Carpeta(carpeta, nodo.derecha)
+            nodo.derecha = self.insertar_nodo(carpeta, nodo.derecha)
         else:
             return nodo
         #asignando la altura respectiva a cada objeto Carpeta
@@ -89,7 +99,7 @@ class FolderSistem:
         if balance < -1 and carpeta.getPesoTotal() < nodo.derecha.carpeta.getPesoTotal():
             return self.rotar_izquierda(nodo)
         return nodo
-    #metodo que imprime los datos en orden de menor a mayor
+    #metodo que imprime los datos en orden de menor a mayor peso
     def in_orden(self, nodo: NodoBi):
         if nodo:
             self.in_orden(nodo.izquierda)

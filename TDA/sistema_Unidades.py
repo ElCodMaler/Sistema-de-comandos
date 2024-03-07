@@ -10,7 +10,7 @@ class Nodo:
     def __init__(self, unidad: Unidad):
         self.unidad = unidad
         self.connect: Nodo = None
-        self.raiz_fs: FolderSistem = None
+        self.folderS: FolderSistem = None
 #clase sistema
 class Sistema:
     """
@@ -33,8 +33,8 @@ class Sistema:
     #metodo que recorrera el nodo
     def buscar_UR(self, nodo: Nodo, nombre: str, raiz: FolderSistem):
         if nodo:
-            if nodo.unidad.getNombre() == nombre and not nodo.raiz_fs:
-                nodo.raiz_fs = raiz
+            if nodo.unidad.getNombre() == nombre and not nodo.folderS:
+                nodo.folderS = raiz
             self.buscar_UR(nodo.connect, nombre, raiz)
     #metodo que buscara la unidad
     def buscar_unidad(self, nombre: str):
@@ -51,4 +51,11 @@ class Sistema:
         if nodo:
             print(nodo.unidad.getNombre())
             self.mostrar(nodo.connect)
-            
+    #navegar
+    def acceso(self, unidad: str, nombre_usuario: str):
+        nodo = self.buscar_unidad(unidad)
+        if nodo:
+            nodo.folderS.navegar()
+        else:
+            print('Lo lamento, no escogio una unidad existente')
+    
