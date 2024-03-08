@@ -9,13 +9,20 @@ fs.insertar_Carpeta(Carpeta(2,'Maria',7))
 fs.insertar_Carpeta(Carpeta(3,'Jose',45))
 fs.insertar_Carpeta(Carpeta(4,'Latam',11))
 #variables
-r = 'Jose'
+r = 'Latam'
 #salida de resultados
-print('los datos que estan administrados dentro de la lista enlazada')
+print('Los datos que estan administrados dentro de la lista enlazada')
+print()
 fs.in_orden(fs.user)
-print('----------*-------------')
+print('-------------  *  --------------')
 r = fs.buscar_carpeta(r,fs.user)
 try:
     print('mostrar el dato buscado:',r.carpeta.getNombre())
 except:
     print('el resultado es:',r)
+print('uso del metodo navegar....')
+ubicacion = fs.navegar('Manolo')
+try:
+    print('mostrar el dato buscado:',ubicacion.carpeta.getNombre())
+except:
+    print('el resultado es:',ubicacion)

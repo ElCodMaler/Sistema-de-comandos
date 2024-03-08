@@ -30,7 +30,7 @@ class Sistema:
     #metodo que asignara la raiz de un arbol
     def asignar_raiz(self, nombre: str, raiz: FolderSistem):
         self.buscar_UR(self.pc, nombre, raiz)
-    #metodo que recorrera el nodo
+    #metodo que asigna un objeto FolderSistem a la unidad especificada
     def buscar_UR(self, nodo: Nodo, nombre: str, raiz: FolderSistem):
         if nodo:
             if nodo.unidad.getNombre() == nombre and not nodo.folderS:
@@ -45,7 +45,8 @@ class Sistema:
             return None
         if nodo.unidad.getNombre() == nombre:
             return nodo
-        self.encontrar_unidad(nodo.connect)
+        if self.encontrar_unidad(nodo.connect):
+            return self.encontrar_unidad(nodo.connect)
     #mostar
     def mostrar(self, nodo: Nodo):
         if nodo:
@@ -58,4 +59,3 @@ class Sistema:
             nodo.folderS.navegar()
         else:
             print('Lo lamento, no escogio una unidad existente')
-    

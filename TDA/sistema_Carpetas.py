@@ -29,15 +29,15 @@ class FolderSistem:
         if not nodo:
             return 0
         return self.obtener_altura(nodo.izquierda) - self.obtener_altura(nodo.derecha)
-    #buscamos una carpeta recorriendo el arbol(ERROR)-> NO RETORNA EL NODO BUSCADO
+    #buscamos una carpeta recorriendo el arbol
     def buscar_carpeta(self, nombre: str, nodo: NodoBi):
-        if not nodo:
-            return None
-        if nodo.carpeta.getNombre() == nombre and self.buscar_carpeta(nombre, nodo.izquierda):
-            return nodo
-        
-        if nodo.carpeta.getNombre() == nombre and self.buscar_carpeta(nombre, nodo.derecha):
-            return nodo
+        if nodo:
+            if nodo.carpeta.getNombre() == nombre:
+                return nodo
+            if self.buscar_carpeta(nombre, nodo.izquierda):
+                return self.buscar_carpeta(nombre, nodo.izquierda)
+            if self.buscar_carpeta(nombre, nodo.derecha):
+                return self.buscar_carpeta(nombre, nodo.derecha)
     #recorrer la lista enlazada y retornar la ultima ubicacion de carpetas
     def navegar(self, ruta: str):
         if ruta == self.user:
@@ -47,7 +47,8 @@ class FolderSistem:
         for parte in partes_ruta:
             if not parte:
                 print('falta asignar el directorio al cual quiere accesar...')
-            carpeta_actual = self.buscar_carpeta(parte,carpeta_actual)
+                #(INCOMPLETO) falta estructurar el recorrido, dependiendo del lado, si es izquierda o derecha
+            carpeta_actual = self.buscar_carpeta(parte,carpeta_actual.izquierda)
             if not carpeta_actual:
                 return None
         return carpeta_actual

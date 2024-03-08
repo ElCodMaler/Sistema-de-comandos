@@ -18,6 +18,6 @@ nodoU = sis.buscar_unidad('C:')
 print('agregar dato...')
 #se asigna una carpeta nueva a la unidad
 nodoU.folderS.insertar_Carpeta(Carpeta(5,'Samuel',500))
-print(f'las carpetas de la unidad {nodoU.unidad.getNombre()}')
+print(f'las carpetas de la unidad {nodoU}')
 #se imprimen los datos en orden de peso total
 nodoU.folderS.in_orden(nodoU.folderS.raiz)
