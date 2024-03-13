@@ -35,6 +35,8 @@ class Sistema:
         if nodo:
             if nodo.unidad.getNombre() == nombre and not nodo.folderS:
                 nodo.folderS = raiz
+            elif nodo.unidad.getNombre() == nombre and nodo.folderS:
+                print('error... ya se le asigno un folder sismte a la unidad', nodo.unidad.getNombre())
             self.buscar_UR(nodo.connect, nombre, raiz)
     #metodo que buscara la unidad
     def buscar_unidad(self, nombre: str):
@@ -52,10 +54,7 @@ class Sistema:
         if nodo:
             print(nodo.unidad.getNombre())
             self.mostrar(nodo.connect)
-    #navegar
-    def acceso(self, unidad: str, nombre_usuario: str):
+    #crear usuario
+    def crear_ususario(self, unidad: str, nombre_usuario: str):
         nodo = self.buscar_unidad(unidad)
-        if nodo:
-            nodo.folderS.navegar()
-        else:
-            print('Lo lamento, no escogio una unidad existente')
+        nodo.folderS.setUser(nombre_usuario)

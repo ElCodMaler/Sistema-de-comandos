@@ -9,15 +9,22 @@ sis.agregar_unidad(Unidad(1,"C:",800,500,None,'SSD'))
 sis.agregar_unidad(Unidad(2,"USB:",500,150,None,"T2"))
 sis.agregar_unidad(Unidad(3,"U:",300,100,None,"HDD"))
 #mostrar unidades en orden
+print('----------- INICIO ------------')
+print('Unidades existentes:')
 sis.mostrar(sis.pc)
-print('guaradar raiz')
+#se le asigna un folder system a la unidad especificada
+print('*guaradar raiz...')
 sis.asignar_raiz("C:",fs)
-print('mostar datos del sistema de ficheros desde el sistema')
-#se le asigna la el nodo de la unidad de la lista enlazada a una variable
+#asignamos un usuario al sistema
+sis.crear_ususario('C:','Mi persona Gilberto')
+#se busca el nodo para ser asignado a una variable
 nodoU = sis.buscar_unidad('C:')
-print('agregar dato...')
 #se asigna una carpeta nueva a la unidad
+print('<usamos funciones y accedemos a las variables del sistema de carpetas desde el sistema>')
+print(f'el nombre de usuario de la unidad {nodoU.unidad.getNombre()} es: {nodoU.folderS.user.name}')
+print('*agregar dato...')
 nodoU.folderS.insertar_Carpeta(Carpeta(5,'Samuel',500))
-print(f'las carpetas de la unidad {nodoU}')
 #se imprimen los datos en orden de peso total
-nodoU.folderS.in_orden(nodoU.folderS.raiz)
+print(f'Las carpetas de la unidad {nodoU.unidad.getNombre()} son:')
+nodoU.folderS.in_orden(nodoU.folderS.user.raiz)
+print('------ FIN DEL PROGRAMA ------')

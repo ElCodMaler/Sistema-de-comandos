@@ -1,5 +1,5 @@
 from tools.elementos_terminal import Carpeta
-#clase Nodo
+#clase NodoBi
 class NodoBi:
     """
     + carpeta: el objeto Carpeta se agrega a los nodos
@@ -12,13 +12,27 @@ class NodoBi:
         self.izquierda: NodoBi = None
         self.derecha: NodoBi = None
         self.altura = 1
+#clase User
+class User:
+    """
+    + name: el nombre de usuario
+    + raiz: la coneccion directa con la raiz NodoBi
+    """
+    def __init__(self, name: str):
+        self.name = name
+        self.raiz: NodoBi = None
 #clase del sistema de Directorios(ARBOL BINARIO)
 class FolderSistem:
     """
-    + user: el nodo raiz del sistema de directorios
+    + raiz: el nodo raiz del sistema de directorios
+    + user: el nodo usuario del Folder System
     """
-    def __init__(self, userName: str):
-        self.user = NodoBi(Carpeta(0,userName,0))
+    def __init__(self):
+        self.raiz: NodoBi = None
+        self.user: User = None
+    #metodo set
+    def setUser(self, nombre_usuario: str):
+        self.user = User(nombre_usuario)
     #metodo que retornara la longitud del arbol
     def obtener_altura(self, nodo: NodoBi):
         if not nodo:
@@ -34,24 +48,37 @@ class FolderSistem:
         if nodo:
             if nodo.carpeta.getNombre() == nombre:
                 return nodo
-            if self.buscar_carpeta(nombre, nodo.izquierda):
-                return self.buscar_carpeta(nombre, nodo.izquierda)
-            if self.buscar_carpeta(nombre, nodo.derecha):
-                return self.buscar_carpeta(nombre, nodo.derecha)
-    #recorrer la lista enlazada y retornar la ultima ubicacion de carpetas
+            res = self.buscar_carpeta(nombre, nodo.izquierda)
+            if res:
+                return res
+            res = self.buscar_carpeta(nombre, nodo.derecha)
+            if res:
+                return res
+    #metodo que mostrara las opciones disponibles
+    def opciones_nav(self, carpeta: str):
+        res = self.buscar_carpeta(carpeta, self.raiz)
+        return res.izquierda, res.derecha
+    #recorrer la lista enlazada y retornar el nodo con la ubicacion especificada
     def navegar(self, ruta: str):
-        if ruta == self.user:
-            return self.user
+        buscar = None
         partes_ruta = ruta.split('/')
-        carpeta_actual = self.user
-        for parte in partes_ruta:
-            if not parte:
-                print('falta asignar el directorio al cual quiere accesar...')
-                #(INCOMPLETO) falta estructurar el recorrido, dependiendo del lado, si es izquierda o derecha
-            carpeta_actual = self.buscar_carpeta(parte,carpeta_actual.izquierda)
-            if not carpeta_actual:
+        carpeta_actual = self.raiz
+        for i in range(len(partes_ruta)):
+            carpeta_actual = self.buscar_carpeta(partes_ruta[i], carpeta_actual)
+            if self.raiz.carpeta.getNombre() == partes_ruta[0] and not(buscar):
+                buscar = carpeta_actual.carpeta.getNombre()
+            if not(carpeta_actual.izquierda) and not(carpeta_actual.derecha):
+                print('no hay datos ni a la izquierda ni a la derecha del nodo',carpeta_actual.carpeta.getNombre())
                 return None
-        return carpeta_actual
+            if len(partes_ruta) > i and len(partes_ruta) != i+1:
+                if carpeta_actual.izquierda.carpeta.getNombre() == partes_ruta[i+1]:
+                    buscar = buscar +'/'+ partes_ruta[i+1]
+                elif carpeta_actual.derecha.carpeta.getNombre() == partes_ruta[i+1]:
+                    buscar = buscar +'/'+ partes_ruta[i+1]
+                else:
+                    print('no se encuentra la carpeta en la ubicacion', carpeta_actual.carpeta.getNombre())    
+        if buscar == ruta:
+            return carpeta_actual
     #metodo que cambiara el orden en que estan asignados los Nodos en el arbol
     def rotar_derecha(self, z: NodoBi):
         y = z.izquierda
@@ -78,7 +105,9 @@ class FolderSistem:
         return y
     #metodo principal donde se van a insertar las carpetas
     def insertar_Carpeta(self, carpeta: Carpeta):
-        self.user = self.insertar_nodo(carpeta, self.user)
+        self.raiz = self.insertar_nodo(carpeta, self.raiz)
+        if self.user:
+            self.user.raiz = self.raiz
     #metodo donde se iran conectando los nodos desde la raiz
     def insertar_nodo(self, carpeta: Carpeta, nodo: NodoBi):
         if not nodo:
