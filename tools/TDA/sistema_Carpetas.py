@@ -1,6 +1,7 @@
-from tools.elementos_terminal import Carpeta
-#clase NodoBi
-class NodoBi:
+from components.elementos_sistema import Carpeta
+from tools.TDA.sistema_ficheros import FileSystem
+#clase nodo Binario
+class Directorio:
     """
     + carpeta: el objeto Carpeta se agrega a los nodos
     + izquierda: el pivot izquierda donde se anexaran los nodoBi
@@ -9,10 +10,11 @@ class NodoBi:
     """
     def __init__(self, carpeta: Carpeta):
         self.carpeta = carpeta
-        self.izquierda: NodoBi = None
-        self.derecha: NodoBi = None
+        self.fileS: FileSystem = None
+        self.izquierda: Directorio = None
+        self.derecha: Directorio = None
         self.altura = 1
-#clase User
+#clase usuarios
 class User:
     """
     + name: el nombre de usuario
@@ -20,31 +22,50 @@ class User:
     """
     def __init__(self, name: str):
         self.name = name
-        self.raiz: NodoBi = None
+        self.raiz: Directorio = None
 #clase del sistema de Directorios(ARBOL BINARIO)
-class FolderSistem:
+class FolderSystem:
     """
     + raiz: el nodo raiz del sistema de directorios
     + user: el nodo usuario del Folder System
     """
     def __init__(self):
-        self.raiz: NodoBi = None
+        self.raiz: Directorio = None
         self.user: User = None
-    #metodo set
+    #metodos set
     def setUser(self, nombre_usuario: str):
         self.user = User(nombre_usuario)
+        self.user.raiz = self.raiz
+    
+    def asignarFileSystem(self, carpeta: str, sistemaF: FileSystem):
+        carpeta_buscada = self.buscar_carpeta(carpeta, self.raiz)
+        if carpeta_buscada:
+            carpeta_buscada.fileS = sistemaF
+            return True
+        return False
+    #metodos get
+    def getFileSystem(self, nombre_carpeta: str):
+        nodo = self.buscar_carpeta(nombre_carpeta, self.raiz)
+        if nodo.fileS:
+            return nodo.fileS.get_raiz()
+    
+    def getUser(self):
+        return self.user.raiz
+    
+    def getUserName(self):
+        return self.user.name
     #metodo que retornara la longitud del arbol
-    def obtener_altura(self, nodo: NodoBi):
+    def obtener_altura(self, nodo: Directorio):
         if not nodo:
             return 0
         return nodo.altura
     #metodo que va a balancear el arbol
-    def obtener_balance(self, nodo: NodoBi):
+    def obtener_balance(self, nodo: Directorio):
         if not nodo:
             return 0
         return self.obtener_altura(nodo.izquierda) - self.obtener_altura(nodo.derecha)
     #buscamos una carpeta recorriendo el arbol
-    def buscar_carpeta(self, nombre: str, nodo: NodoBi):
+    def buscar_carpeta(self, nombre: str, nodo: Directorio):
         if nodo:
             if nodo.carpeta.getNombre() == nombre:
                 return nodo
@@ -55,8 +76,8 @@ class FolderSistem:
             if res:
                 return res
     #metodo que mostrara las opciones disponibles
-    def opciones_nav(self, carpeta: str):
-        res = self.buscar_carpeta(carpeta, self.raiz)
+    def opciones_nav(self, carp: Directorio):
+        res = self.buscar_carpeta(carp.carpeta.getNombre(), self.raiz)
         return res.izquierda, res.derecha
     #recorrer la lista enlazada y retornar el nodo con la ubicacion especificada
     def navegar(self, ruta: str):
@@ -80,7 +101,7 @@ class FolderSistem:
         if buscar == ruta:
             return carpeta_actual
     #metodo que cambiara el orden en que estan asignados los Nodos en el arbol
-    def rotar_derecha(self, z: NodoBi):
+    def rotar_derecha(self, z: Directorio):
         y = z.izquierda
         t3 = y.derecha
 
@@ -92,7 +113,7 @@ class FolderSistem:
 
         return y
     #metodo que cambiara el orden en que estan asignados los Nodos en el arbol
-    def rotar_izquierda(self, z: NodoBi):
+    def rotar_izquierda(self, z: Directorio):
         y = z.derecha
         t2 = y.izquierda
 
@@ -106,12 +127,10 @@ class FolderSistem:
     #metodo principal donde se van a insertar las carpetas
     def insertar_Carpeta(self, carpeta: Carpeta):
         self.raiz = self.insertar_nodo(carpeta, self.raiz)
-        if self.user:
-            self.user.raiz = self.raiz
     #metodo donde se iran conectando los nodos desde la raiz
-    def insertar_nodo(self, carpeta: Carpeta, nodo: NodoBi):
+    def insertar_nodo(self, carpeta: Carpeta, nodo: Directorio):
         if not nodo:
-            return NodoBi(carpeta)
+            return Directorio(carpeta)
         #ordenando los objetos de izquierda a derecha de acuerdo a su peso
         if carpeta.getPesoTotal() < nodo.carpeta.getPesoTotal():
             nodo.izquierda = self.insertar_nodo(carpeta, nodo.izquierda)
@@ -134,7 +153,7 @@ class FolderSistem:
             return self.rotar_izquierda(nodo)
         return nodo
     #metodo que imprime los datos en orden de menor a mayor peso
-    def in_orden(self, nodo: NodoBi):
+    def in_orden(self, nodo: Directorio):
         if nodo:
             self.in_orden(nodo.izquierda)
             print(nodo.carpeta.getNombre())

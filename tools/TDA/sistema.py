@@ -1,5 +1,5 @@
-from tools.elementos_terminal import Unidad
-from TDA.sistema_Carpetas import FolderSistem
+from components.elementos_sistema import Unidad
+from tools.TDA.sistema_Carpetas import FolderSystem
 #clase nodo
 class Nodo:
     """
@@ -10,33 +10,35 @@ class Nodo:
     def __init__(self, unidad: Unidad):
         self.unidad = unidad
         self.connect: Nodo = None
-        self.folderS: FolderSistem = None
+        self.folderS: list[FolderSystem] = []
 #clase sistema
-class Sistema:
+class System:
     """
     + pc: el nodo raiz del sistema
     """
     def __init__(self):
         self.pc: Nodo = None
+    #metodos get
+    def getUsuarios(self, unidad: str):
+        nodo = self.buscar_unidad(unidad)
+        return nodo.folderS
     #se agregaran los nodos
-    def agregar(self, unidad: Unidad, nodo: Nodo):
+    def agregar_nodo(self, unidad: Unidad, nodo: Nodo):
         if not nodo:
             return Nodo(unidad)
-        nodo.connect = self.agregar(unidad, nodo.connect)
+        nodo.connect = self.agregar_nodo(unidad, nodo.connect)
         return nodo
     #metodo que asignara el nodo raiz al atributo PC
     def agregar_unidad(self, unidad: Unidad):
-        self.pc = self.agregar(unidad, self.pc)
+        self.pc = self.agregar_nodo(unidad, self.pc)
     #metodo que asignara la raiz de un arbol
-    def asignar_raiz(self, nombre: str, raiz: FolderSistem):
+    def asignar_raiz(self, nombre: str, raiz: FolderSystem):
         self.buscar_UR(self.pc, nombre, raiz)
     #metodo que asigna un objeto FolderSistem a la unidad especificada
-    def buscar_UR(self, nodo: Nodo, nombre: str, raiz: FolderSistem):
+    def buscar_UR(self, nodo: Nodo, nombre: str, raiz: FolderSystem):
         if nodo:
-            if nodo.unidad.getNombre() == nombre and not nodo.folderS:
-                nodo.folderS = raiz
-            elif nodo.unidad.getNombre() == nombre and nodo.folderS:
-                print('error... ya se le asigno un folder sismte a la unidad', nodo.unidad.getNombre())
+            if nodo.unidad.getNombre() == nombre:
+                nodo.folderS.append(raiz)
             self.buscar_UR(nodo.connect, nombre, raiz)
     #metodo que buscara la unidad
     def buscar_unidad(self, nombre: str):
@@ -55,6 +57,13 @@ class Sistema:
             print(nodo.unidad.getNombre())
             self.mostrar(nodo.connect)
     #crear usuario
-    def crear_ususario(self, unidad: str, nombre_usuario: str):
+    def crear_usuario(self, unidad: str, nombre_usuario: str):
         nodo = self.buscar_unidad(unidad)
-        nodo.folderS.setUser(nombre_usuario)
+        if len(nodo.folderS) > 0:
+            for user in nodo.folderS:
+                if user.user:
+                    if user.getUserName() == nombre_usuario:
+                        print('ya existe este usuario')
+            for fsRaiz in nodo.folderS:
+                fsRaiz.setUser(nombre_usuario)
+        

@@ -1,0 +1,17 @@
+{
+    "doc1":{
+        "id": 6,
+        "nombre": "Imagenes",
+        "peso": 0
+    },
+    "doc2":{
+        "id": 7,
+        "nombre": "Videos",
+        "peso": 0
+    },
+    "doc3":{
+        "id": 8,
+        "nombre": "Fotos",
+        "peso": 0
+    }
+}

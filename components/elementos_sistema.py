@@ -70,7 +70,6 @@ class Carpeta:
         self.nombre = nombre
         self.fechaCreada = datetime.datetime.now()
         self.ficheros = Fichero
-        self.listaCarpetas = Carpeta
         self.pesoTotal = pesoTotal
 
     #metodos GET
@@ -86,9 +85,6 @@ class Carpeta:
     def getFicheros(self) -> list[Fichero]:
         return self.ficheros
     
-    def getListaCarpetas(self) -> list:
-        return self.listaCarpetas
-    
     def getPesoTotal(self) -> int:
         return self.pesoTotal
     
@@ -101,12 +97,6 @@ class Carpeta:
             self.ficheros.append(fiche)
         else:
             self.ficheros = fiche
-
-    def setCarpeta(self, carpe: list | object):
-        if type(carpe) == Carpeta:
-            self.ficheros.append(carpe)
-        else:
-            self.ficheros = carpe
 
     def setPesoTotal(self, peso: int):
         self.pesoTotal = peso
@@ -121,7 +111,7 @@ class Unidad:
     + listaCarpetas: una lista de objetos Carpeta que se encuentran dentro de esta Unidad
     + tipo: es la estructura del dico que almacena datos
     '''
-    def __init__(self, id = 0, nombre="C:", capacidadTotal = 600, espacioDisponible = 0, carpetas: list[Carpeta] = [], tipo = "HDD"):
+    def __init__(self, id = 0, nombre="C:", capacidadTotal = 600, espacioDisponible = 0, carpetas = None, tipo = "HDD"):
         self.id = id
         self.nombre = nombre
         self.fechaCreada = datetime.datetime.now()
@@ -146,7 +136,7 @@ class Unidad:
     def getEspacioDisponible(self) -> int:
         return self.espacioDisponible
     
-    def getCarpetas(self) -> list[Carpeta]:
+    def getCarpetas(self):
         return self.carpetas
     
     def getTipo(self) -> str:
@@ -162,8 +152,8 @@ class Unidad:
     def setEspacioDisponible(self, espacio: int):
         self.espacioDisponible = espacio
 
-    def setCarpetas(self, listaC: list[Carpeta]):
-        self.carpetas = listaC
+    def setCarpetas(self, carpetas):
+        self.carpetas = carpetas
 
     def setTipo(self, tipo: str):
         self.tipo = tipo

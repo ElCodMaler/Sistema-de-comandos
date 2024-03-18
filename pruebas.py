@@ -1,2 +1,3 @@
-#importar los archivos del paquete testing, para hacer la salida de todas las pruebas
-import test.usar_sistema
+#importar los archivos test para probarlos desde este archivo
+import tools.generar
+

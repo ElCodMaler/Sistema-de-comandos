@@ -1,4 +1,6 @@
-from tools.elementos_terminal import Fichero, Carpeta, Unidad
+#en desusuo
+"""
+from components.elementos_sistema import Fichero, Carpeta, Unidad
 import os
 #clase donde se almacenan todos los datos del archivo Json
 class BaseDatos(Fichero,Carpeta,Unidad):
@@ -134,3 +136,4 @@ class BaseDatos(Fichero,Carpeta,Unidad):
     #     for unidad in dicJ:
     #         carpeta = self.datosUbicacion(dicJ[unidad])
     #         self.unidades.append(Unidad(self.ids[2][-1] + 1,unidad,700,self.diferenciaPesos(700,self.sumaFichero(dicJ[unidad])),carpeta,'HDD'))
+"""

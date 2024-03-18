@@ -1,1 +1,0 @@
-from TDA.arbol_nArio import laclase

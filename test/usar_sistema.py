@@ -1,9 +1,10 @@
-from TDA.sistema import Sistema
-from tools.elementos_terminal import Unidad, Carpeta
+from tools.TDA.sistema import System
+from components.elementos_sistema import Unidad, Carpeta
 from test.usar_sistema_carpetas import fs
+from test.usar_sistema_archivos import arch
 #ejemplo de su uso
 #INICIALIZAR sistema
-sis = Sistema()
+sis = System()
 #agregar unidades
 sis.agregar_unidad(Unidad(1,"C:",800,500,None,'SSD'))
 sis.agregar_unidad(Unidad(2,"USB:",500,150,None,"T2"))
@@ -16,15 +17,25 @@ sis.mostrar(sis.pc)
 print('*guaradar raiz...')
 sis.asignar_raiz("C:",fs)
 #asignamos un usuario al sistema
-sis.crear_ususario('C:','Mi persona Gilberto')
+sis.crear_usuario('C:','Mi persona Gilberto')
 #se busca el nodo para ser asignado a una variable
 nodoU = sis.buscar_unidad('C:')
 #se asigna una carpeta nueva a la unidad
 print('<usamos funciones y accedemos a las variables del sistema de carpetas desde el sistema>')
-print(f'el nombre de usuario de la unidad {nodoU.unidad.getNombre()} es: {nodoU.folderS.user.name}')
+if len(nodoU.folderS) > 0:
+    for usuario in nodoU.folderS:
+        print(f'el nombre de usuario de la unidad {nodoU.unidad.getNombre()} es: {usuario.getUserName()}')
 print('*agregar dato...')
-nodoU.folderS.insertar_Carpeta(Carpeta(5,'Samuel',500))
+nodoU.folderS[0].insertar_Carpeta(Carpeta(5,'Samuel',500))
 #se imprimen los datos en orden de peso total
 print(f'Las carpetas de la unidad {nodoU.unidad.getNombre()} son:')
-nodoU.folderS.in_orden(nodoU.folderS.user.raiz)
+if len(nodoU.folderS) > 0:
+    for usuario in nodoU.folderS:
+        usuario.in_orden(usuario.getUser())
+#asignar sistema de archivos a una carpeta del sistema de carpetas
+nodoU.folderS[0].asignarFileSystem('Luis',arch)
+print('El nombre de usuario es:',nodoU.folderS[0].getUserName())
+print('<usamos funciones y accedemos a las variables del sistema de ficheros desde el sistema>')
+print('impresion de los archivos:')
+nodoU.folderS[0].getFileSystem('Luis').recorrido_inorden()
 print('------ FIN DEL PROGRAMA ------')
