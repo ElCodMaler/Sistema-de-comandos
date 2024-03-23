@@ -1,17 +1,17 @@
 {
     "doc1":{
-        "id": 6,
+        "id": 5,
         "nombre": "Imagenes",
-        "peso": 0
+        "peso": 5
     },
     "doc2":{
-        "id": 7,
+        "id": 6,
         "nombre": "Videos",
-        "peso": 0
+        "peso": 15
     },
     "doc3":{
-        "id": 8,
-        "nombre": "Fotos",
-        "peso": 0
+        "id": 7,
+        "nombre": "Musica",
+        "peso": 14
     }
 }

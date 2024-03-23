@@ -11,21 +11,36 @@ class ValidarComando:
 class Cd:
     def __init__(self, instrucciones: list):
         self.instrucciones = instrucciones
+        self.listaC = Lista_Comandos()
+        self.comando = None
     #metodo de calidacion del comando
     def existe(self):
         entrada = self.instrucciones.split(' ')
         if len(entrada) != 2:
             return False
-        listaC = Lista_Comandos()
-        for comando in listaC.comandos:
+        for comando in self.listaC.comandos:
             if comando.getId() == 1:
                 requicitos = comando.getRequicito()
                 if requicitos[0] == entrada[0] and entrada[1]:
+                    comando.setRequicito([requicitos[0],entrada[1]])
+                    self.comando = comando
                     return True
         return False
     #metodo donde se ejecutara el comando(EN PRODUCCION)
-    def ejecutar(self):
-        pass
+    def ejecutar(self, sistema, ubicacion_actual):
+        listaC = sistema[0].getCarpetas().obtener_objetos()
+        ubicacion = ubicacion_actual.split('/')
+        for carpeta in listaC:
+            if ubicacion[-1] == sistema[1].getName():
+                if self.comando.getRequicito()[1] == carpeta.getNombre():
+                    return ubicacion_actual+'/'+carpeta.getNombre()
+            elif ubicacion[-1] == carpeta.getNombre():
+                listaF = carpeta.getFicheros()
+                for fich in listaF:
+                    if self.comando.getRequicito()[1] == fich.getNombre():
+                        return ubicacion_actual+'/'+fich.getNombre()     
+                print('no se encuentra ningun fichero con ese nombre, favor de registrar bien el nombre')
+                return None
 #clase Dir
 class Dir:
     def __init__(self, instrucciones: list):
@@ -42,6 +57,21 @@ class Dir:
                 if requicitos[0] == entrada[0]:
                     return True
         return False
+    #metodo donde se ejecutara el comando
+    def ejecutar(self, sistema, ubicacion_actual):
+        listaC = sistema[0].getCarpetas().obtener_objetos()
+        ubicacion = ubicacion_actual.split('/')
+        if ubicacion[-1] == sistema[1].getName():
+            sistema[0].getCarpetas().recorrer()
+            return ubicacion_actual
+        else:
+            for c in listaC:
+                if ubicacion[-1] == c.getNombre():
+                    for fich in c.getFicheros():
+                        print(fich.getNombre())
+                    return ubicacion_actual
+            print('no se encuentra ningun fichero con ese nombre, favor de registrar bien el nombre')
+            return None
 #clase Mkdir
 class Mkdir:
     def __init__(self, instrucciones: list):
@@ -58,6 +88,9 @@ class Mkdir:
                 if requicitos[0] == entrada[0] and entrada[1]:
                     return True
         return False
+    #metodo donde se ejecutara el comando(EN PRODUCCION)
+    def ejecutar(self, sistema):
+        print('ejecucion...')
 #clase asc
 class Asc:
     def __init__(self, instrucciones: list):
@@ -74,6 +107,9 @@ class Asc:
                 if requicitos[0] == entrada[0]:
                     return True
         return False
+    #metodo donde se ejecutara el comando(EN PRODUCCION)
+    def ejecutar(self, sistema):
+        print('ejecucion...')
 #clase Desc
 class Desc:
     def __init__(self, instrucciones: list):
@@ -91,6 +127,9 @@ class Desc:
                 if requicitos[0] == entrada[0]:
                     return True
         return False
+    #metodo donde se ejecutara el comando(EN PRODUCCION)
+    def ejecutar(self, sistema):
+        print('ejecucion...')
 #clase Type
 class Type:
     def __init__(self, instrucciones: list):
@@ -108,3 +147,6 @@ class Type:
                 if requicitos[0] == entrada[0] and entrada[1] and entrada[2]:
                     return True
         return False
+    #metodo donde se ejecutara el comando(EN PRODUCCION)
+    def ejecutar(self, sistema):
+        print('ejecucion...')

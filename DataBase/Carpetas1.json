@@ -2,26 +2,21 @@
     "doc1":{
         "id": 1,
         "nombre": "Imagenes",
-        "peso": 0
+        "peso": 1
     },
     "doc2":{
         "id": 2,
         "nombre": "Videos",
-        "peso": 0
+        "peso": 2
     },
     "doc3":{
         "id": 3,
-        "nombre": "Fotos",
-        "peso": 0
+        "nombre": "Musica",
+        "peso": 3
     },
     "doc4":{
         "id": 4,
-        "nombre": "Escritorio",
-        "peso": 0
-    },
-    "doc5":{
-        "id": 5,
         "nombre": "Documentos",
-        "peso": 0
+        "peso": 4
     }
 }

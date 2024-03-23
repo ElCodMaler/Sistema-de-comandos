@@ -1,5 +1,6 @@
 from components.elementos_sistema import Fichero
-from tools.TDA.sistema_ficheros import FileSystem
+from tools.TDA.arboles.sistema_ficheros import FileSystem
+
 #ejemplo de su uso
 #Creacion de archivos
 arch = FileSystem()
@@ -9,6 +10,7 @@ arch.crear_archivo(Fichero(3,'archivo3','exce',600,'contenido del archivo3...'))
 arch.crear_archivo(Fichero(4,'archivo4','pdf',346,'contenido del archivo4...'))
 arch.crear_archivo(Fichero(5,'archivo5','xmlx',220,'contenido del archivo5...'))
 arch.crear_archivo(Fichero(6,'archivo6','txt',462,'contenido del archivo6...'))
+
 """
 #INICIO DEL PROGRAMA
 #entrada de datos

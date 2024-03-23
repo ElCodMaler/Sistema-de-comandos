@@ -1,7 +1,8 @@
-from tools.TDA.sistema import System
+from tools.TDA.arboles.sistema import System
 from components.elementos_sistema import Unidad, Carpeta
-from test.usar_sistema_carpetas import fs
-from test.usar_sistema_archivos import arch
+from test.arboles.usar_sistema_carpetas import fs
+from test.arboles.usar_sistema_archivos import arch
+
 #ejemplo de su uso
 #INICIALIZAR sistema
 sis = System()

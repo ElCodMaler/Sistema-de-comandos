@@ -5,8 +5,8 @@ entrada = str
 validarC = ValidarComando
 def usarComandos(ent: str) -> bool:
     for nombre, comando in validarC.lista_comandos.items():
-        if nombre in ent:
-            return comando.existe()
+        if nombre in ent and comando.existe():
+            return comando
     return False
 #INICIO DEL PROGRAMA
 #entrada de datos

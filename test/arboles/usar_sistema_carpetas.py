@@ -1,17 +1,19 @@
 from components.elementos_sistema import Carpeta
-from tools.TDA.sistema_Carpetas import FolderSystem
-from test.usar_sistema_archivos import arch
+from tools.TDA.arboles.sistema_Carpetas import FolderSystem
+from test.arboles.usar_sistema_archivos import arch
 
+#ejemplo de su uso
 #inicio del sistema
 fs = FolderSystem()
 #asignar carpetas al sistema
 fs.insertar_Carpeta(Carpeta(1,'Carlos',15))
-fs.insertar_Carpeta(Carpeta(2,'Maria',7))
-fs.insertar_Carpeta(Carpeta(3,'Jose',45))
-fs.insertar_Carpeta(Carpeta(4,'Luis',11))
+fs.insertar_Carpeta(Carpeta(2,'Maria',15))
+fs.insertar_Carpeta(Carpeta(3,'Jose',15))
+fs.insertar_Carpeta(Carpeta(4,'Luis',15))
 fs.insertar_Carpeta(Carpeta(5,'Tulio',23))
 fs.insertar_Carpeta(Carpeta(6,'Suli',9))
 fs.insertar_Carpeta(Carpeta(7,'Latam',30))
+
 """
 #usar sistema de ficheros desde el sistema de carpetas
 fs.setUser('mi usuario')

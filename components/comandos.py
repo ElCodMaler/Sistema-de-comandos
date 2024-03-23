@@ -1,7 +1,7 @@
 #Clase Comando
 class Comando:
     #constructor
-    def __init__(self,id = 0, nombre="", descripcion="", requisito=[]):
+    def __init__(self,id = 0, nombre="", descripcion="", requisito: list=[]):
         self.id = id
         self.nombre = nombre
         self.descripcion = descripcion
