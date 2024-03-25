@@ -30,6 +30,9 @@ class Lista_Comandos:
         self.comandos = [Comando(1,'cd','Acceder al directorio',['cd',None]),
                          Comando(2,'dir','mostrara todos los directorios a los que se pueden acceder',['dir']),
                          Comando(3,'mkdir','agregar carpeta o subcarpetas desde su ubicacion',['mkdir',None]),
-                         Comando(4,'asc','mostrar los datos en orden ascendente',['asc']),
-                         Comando(5,'desc','mostrar los datos en orden descendete',['desc']),
-                         Comando(6,'type','se creara un archivo en el directorio en el que se encuentra y adicional se agregaran el contenido',['type',None,None])]
+                         Comando(4,'rmdir','eliminar carpeta si esta vacia',['rmdir',None]),
+                         Comando(5,'asc','mostrar los datos en orden ascendente',['asc']),
+                         Comando(6,'desc','mostrar los datos en orden descendete',['desc']),
+                         Comando(7,'type','se creara un archivo en el directorio en el que se encuentra y adicional se agregaran el contenido',['type',None,None]),
+                         Comando(8,'help','mostrar los comandos disponibles',['help']),
+                         Comando(9,'exit','cerrar terminal',['exit'])]

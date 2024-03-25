@@ -23,5 +23,4 @@ class User:
             self.setAcceso(True)
         elif acces == 'N' or acces == 'N':
             self.setAcceso(False)
-        self.setName(name)
-    
+        self.setName(name)  

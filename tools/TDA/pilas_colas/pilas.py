@@ -8,7 +8,6 @@ class Nodo:
     def __init__(self, valor):
         self.valor = valor
         self.siguiente = None
-        self.subFolder = Cola()
 #clase Pila
 class Pila:
     """
@@ -17,7 +16,7 @@ class Pila:
     def __init__(self):
         self.tope = None
 
-    def estaVacia(self):
+    def esta_vacia(self):
         return self.tope is None
     
     def agregar(self, valor):
@@ -26,11 +25,11 @@ class Pila:
         self.tope = nodo_nuevo
     
     def vaciar_pila(self):
-        while not self.estaVacia():
+        while not self.esta_vacia():
             self.eliminar()
     
     def eliminar(self):
-        if self.estaVacia():
+        if self.esta_vacia():
             return None
         else:
             valor_eliminado = self.tope.valor
@@ -53,7 +52,7 @@ class Pila:
             return self.tope.valor
         
     def recorrer(self):
-        if self.estaVacia():
+        if self.esta_vacia():
             print("La pila está vacía")
         else:
             print('<Ejecucion Comando Dir>')

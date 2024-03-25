@@ -1,17 +1,17 @@
 {
     "doc1":{
         "id": 5,
-        "nombre": "Imagenes",
+        "nombre": "Windows64x",
         "peso": 5
     },
     "doc2":{
         "id": 6,
-        "nombre": "Videos",
+        "nombre": "Users",
         "peso": 15
     },
     "doc3":{
         "id": 7,
-        "nombre": "Musica",
+        "nombre": "Data",
         "peso": 14
     }
 }

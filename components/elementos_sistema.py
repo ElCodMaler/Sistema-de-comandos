@@ -70,6 +70,7 @@ class Carpeta:
         self.nombre = nombre
         self.fechaCreada = datetime.datetime.now()
         self.ficheros = Fichero
+        self.carpetas = None
         self.pesoTotal = pesoTotal
 
     #metodos GET
@@ -85,6 +86,9 @@ class Carpeta:
     def getFicheros(self) -> list[Fichero]:
         return self.ficheros
     
+    def getCarpetas(self):
+        return self.carpetas
+    
     def getPesoTotal(self) -> int:
         return self.pesoTotal
     
@@ -97,6 +101,9 @@ class Carpeta:
             self.ficheros.append(fiche)
         else:
             self.ficheros = fiche
+
+    def setCarpetas(self, carp):
+        self.carpetas = carp
 
     def setPesoTotal(self, peso: int):
         self.pesoTotal = peso
