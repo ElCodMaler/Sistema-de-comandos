@@ -1,16 +1,13 @@
 {
     "doc1":{
-        "id": 5,
         "nombre": "Windows64x",
         "peso": 5
     },
     "doc2":{
-        "id": 6,
         "nombre": "Users",
         "peso": 15
     },
     "doc3":{
-        "id": 7,
         "nombre": "Data",
         "peso": 14
     }

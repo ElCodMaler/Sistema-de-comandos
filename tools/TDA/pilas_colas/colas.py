@@ -1,3 +1,5 @@
+from components.elementos_sistema import Carpeta
+
 #clase Nodo
 class Nodo:
     """
@@ -8,7 +10,7 @@ class Nodo:
         self.valor = valor
         self.siguiente: Nodo = None
 #clase Cola
-class Cola:
+class Cola(Carpeta):
     """
     + frente: es el primer nodo
     + fin: el nodo que se encuentra al final de la lista
@@ -19,6 +21,10 @@ class Cola:
     #condicion del atributo frente
     def esta_vacia(self):
         return self.frente is None
+    #eliminar todos lo datos de la cola
+    def vaciar_cola(self):
+        while not self.esta_vacia():
+            self.eliminar_valor()
     #agregar un dato a la lista de colas
     def agregar(self, valor):
         nodo_nuevo = Nodo(valor)
@@ -28,7 +34,7 @@ class Cola:
             self.fin.siguiente = nodo_nuevo
         self.fin = nodo_nuevo
     #eliminar los primeros datos almacenados
-    def eliminar(self):
+    def eliminar_valor(self):
         if self.esta_vacia():
             return None
         else:
@@ -37,6 +43,18 @@ class Cola:
         if self.frente is None:
             self.fin = None
         return valor_eliminado
+    
+    def eliminar(self, nombre: str):
+        files = self.obtener_objetos()
+
+        for f in range(len(files)-1):
+            if files[f].getNombre() == nombre:
+                files.pop(f)
+
+        self.vaciar_cola()
+
+        for f in files:
+            self.agregar(f)
     #se retornara una lista de los valores que tiene la lista enlazada
     def obtener_objetos(self):
         objetos = []
@@ -54,14 +72,17 @@ class Cola:
     #recorrera la lista enlazada imprimiendo los datos
     def recorrer(self):
         if self.esta_vacia():
-            print("La cola está vacía")
+            print("void")
         else:
-            print('<Ejecucion Comando Dir>')
-            print('{0:2s}  {1:11s} {2:2s} {3:18s}'.format('id:','nombre:','peso:','fecha creada'))
+            print('{0:2s}  {1:9s}   <type>   {2:7s}'.format('id:','nombre:','fecha creada:'))
             self._recorrer_aux(self.frente)
     #un auxiliar del metodo recorrer, que es donde se usa un metodo recursivo que recorre toda la lista
     def _recorrer_aux(self, nodo):
         if nodo is not None:
+            subFolders = ''
             carpeta = nodo.valor
-            print('{0:2d} | {1:10s} | {2:2d} | {3:18s}'.format(carpeta.getId(),carpeta.getNombre(),carpeta.getPesoTotal(),carpeta.getFechaCreada()))
+            if carpeta.getCarpetas():
+                subFolders = '<dir>'
+            carpeta = nodo.valor
+            print('{0:2d} | {1:10s}   {2:7s}   {3:9s}'.format(carpeta.getId(),carpeta.getNombre(),subFolders,carpeta.getFechaCreada()))
             self._recorrer_aux(nodo.siguiente)

@@ -1,48 +1,41 @@
 {
     "arch1":{
-        "id": 1,
         "nombre": "tareas",
         "extencion": ".txt",
         "peso": 0,
         "datos": "Comprar carne, limpiar el carro, pasear al perro, aprender piano, hablar con la familia"
     },
     "arch2":{
-        "id": 2,
         "nombre": "contra",
         "extencion": ".txt",
         "peso": 0,
         "datos": "Netflix: Pahvt5412t4c, Amazon: rybYbsc4cbrt"
     },
     "arch3":{
-        "id": 3,
         "nombre": "tesis",
         "extencion": ".doc",
         "peso": 0,
         "datos": "El hombre y el medio ambiente, la contaminacion del agua esta afectando...."
     },
     "arch4":{
-        "id": 4,
         "nombre": "algebra",
         "extencion": ".pdf",
         "peso": 0,
         "datos": "Las matrices inversas se representan como..."
     },
     "arch5":{
-        "id": 5,
         "nombre": "en la playa",
         "extencion": ".jpg",
         "peso": 0,
         "datos": "df5de18erfwd1fwe8r4fe"
     },
     "arch6":{
-        "id": 6,
         "nombre": "mi gato",
         "extencion": ".jpeg",
         "peso": 0,
         "datos": "dcre51v5dsf1er1vdsv1ergv"
     },
     "arch7":{
-        "id": 7,
         "nombre": "patinando",
         "extencion": ".mp4",
         "peso": 0,

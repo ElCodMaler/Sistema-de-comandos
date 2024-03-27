@@ -1,6 +1,8 @@
 import datetime
+
 #clase FICHERO
 class Fichero:
+    id = 0
     '''
     + id: numero unico del objeto creado
     + nombre: nombre que identifique el objeto fichero
@@ -9,8 +11,9 @@ class Fichero:
     + datos: el contenido del fichero en especifico
     + fechaModificada: la fecha en que se crea el objeto
     '''
-    def __init__(self, id: int, nombre: str, extencion: str, peso: int, datos: str):
-        self.id = id
+    def __init__(self, nombre: str, extencion: str, peso: int, datos: str):
+        Fichero.id += 1
+        self.id = Fichero.id
         self.nombre = nombre
         self.peso = peso
         self.extencion = extencion
@@ -57,6 +60,7 @@ class Fichero:
         self.setFechaModificada()
 #clase CARPETA
 class Carpeta:
+    id = 0
     '''
     + id: numero unico del objeto creado
     + nombre: nombre que identifique el objeto Carpeta
@@ -65,8 +69,9 @@ class Carpeta:
     + pesoTotal: un numero que represente la cantidad de datos que almacena esta carpeta
     + fechaCreada: la fecha en que se creo el objeto, usando la
     '''
-    def __init__(self, id: int, nombre: str, pesoTotal: int):
-        self.id = id
+    def __init__(self, nombre: str, pesoTotal: int):
+        Carpeta.id += 1
+        self.id = Carpeta.id
         self.nombre = nombre
         self.fechaCreada = datetime.datetime.now()
         self.ficheros = Fichero
@@ -76,7 +81,7 @@ class Carpeta:
     #metodos GET
     def getId(self) -> int:
         return self.id
-    
+
     def getNombre(self) -> str:
         return self.nombre
     
@@ -97,19 +102,25 @@ class Carpeta:
         self.nombre = nombre  
 
     def setFichero(self, fiche: list[Fichero] | Fichero):
-        if type(fiche) == Fichero:
-            self.ficheros.append(fiche)
-        else:
+        if type(fiche) == list:
+            for f in fiche:
+                self.pesoTotal += f.getPeso()
             self.ficheros = fiche
+        else:
+            self.ficheros.append(fiche)
 
     def setCarpetas(self, carp):
         self.carpetas = carp
 
     def setPesoTotal(self, peso: int):
         self.pesoTotal = peso
+
+    def sumarPesoTotal(self, valor):
+        self.pesoTotal += valor
         
 #clase UNIDAD
 class Unidad:
+    id = 0
     '''
     + id: numero unico del objeto creado
     + nombre: nombre que identifique el objeto Unidad
@@ -118,12 +129,14 @@ class Unidad:
     + listaCarpetas: una lista de objetos Carpeta que se encuentran dentro de esta Unidad
     + tipo: es la estructura del dico que almacena datos
     '''
-    def __init__(self, id = 0, nombre="C:", capacidadTotal = 600, espacioDisponible = 0, carpetas = None, tipo = "HDD"):
-        self.id = id
+    def __init__(self, nombre="C:", capacidadTotal = 600, carpetas = None, tipo = "HDD"):
+        Unidad.id += 1
+        self.id = Unidad.id
         self.nombre = nombre
         self.fechaCreada = datetime.datetime.now()
         self.capacidadTotal = capacidadTotal
-        self.espacioDisponible = espacioDisponible
+        self.pesoTotal = 0
+        self.espacioDisponible = self.capacidadTotal - self.pesoTotal
         self.carpetas = carpetas
         self.tipo = tipo
 
@@ -153,14 +166,12 @@ class Unidad:
     def setNombre(self, nombre: str):
         self.nombre = nombre
 
-    def setCapacidadTotal(self, capacidadT: int):
-        self.capacidadTotal = capacidadT
-
-    def setEspacioDisponible(self, espacio: int):
-        self.espacioDisponible = espacio
-
     def setCarpetas(self, carpetas):
         self.carpetas = carpetas
 
     def setTipo(self, tipo: str):
         self.tipo = tipo
+
+    def actualizar_espacioDisponible(self, valor):
+        self.pesoTotal += valor
+        self.espacioDisponible = self.capacidadTotal - self.pesoTotal

@@ -1,48 +1,41 @@
 {
     "arch1":{
-        "id": 8,
         "nombre": "en la playa",
         "extencion": ".jpg",
         "peso": 0,
         "datos": "df5de18erfwd1fwe8r4fe"
     },
     "arch2":{
-        "id": 9,
         "nombre": "mi gato",
         "extencion": ".jpeg",
         "peso": 0,
         "datos": "dcre51v5dsf1er1vdsv1ergv"
     },
     "arch3":{
-        "id": 10,
         "nombre": "patinando",
         "extencion": ".mp4",
         "peso": 0,
         "datos": "sd8sd4f8ewf4ds5f1ew8fw"
     },
     "arch4":{
-        "id": 11,
         "nombre": "bailando",
         "extencion": ".mp4",
         "peso": 0,
         "datos": "reg1f650er54g0erwg0eferh"
     },
     "arch5":{
-        "id": 12,
         "nombre": "rock",
         "extencion": ".mp3",
         "peso": 0,
         "datos": "sd8sd4f8ewf4ds5f1ew8fw"
     },
     "arch6":{
-        "id": 13,
         "nombre": "bachata",
         "extencion": ".mp3",
         "peso": 0,
         "datos": "reg1f650er54g0erwg0eferh"
     },
     "arch7":{
-        "id": 14,
         "nombre": "atardecer",
         "extencion": ".jpg",
         "peso": 0,
