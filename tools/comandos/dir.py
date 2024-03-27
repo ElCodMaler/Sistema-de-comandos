@@ -48,16 +48,12 @@ class Dir:
             carpetas = system.obtener_objetos()
             subCarpeta = []
             subFicheros = 0
-            pesoF = 0
+            cantidad_carpetas = 0
             for c in carpetas:
                 if c.getNombre() == entrada:
                     if c.getCarpetas():
                         for c1 in c.getCarpetas().obtener_objetos():
-                            if c1.getCarpetas():
-                                subCarpeta.append(c1.getCarpetas())
-                            if len(c1.getFicheros()) > 0:
-                                subFicheros += 1
-                        cantidad_carpetas = len(subCarpeta)
+                            cantidad_carpetas += 1
                         print('  sistema disco local C en Windows')
                         print('  su numero de serie es WF15EW-62EE\n')
                         print(f'  Directorio actual es ({self.directorio})\n')
@@ -65,9 +61,31 @@ class Dir:
                         print(f'       {subFicheros} archivos')
                         print(f'       {cantidad_carpetas} dirs   {c.getPesoTotal()} bytes ocupados\n')
                         return True
-                    elif type(c.getFicheros()) == list and len(c.getFicheros()) > 0:
-                        self.showFicheros(c.getFicheros())
+                    elif c.getFicheros():
+                        for c1 in c.getFicheros().obtener_objetos():
+                            subFicheros += 1
+                        print('  sistema disco local C en Windows')
+                        print('  su numero de serie es WF15EW-62EE\n')
+                        print(f'  Directorio actual es ({self.directorio})\n')
+                        self.showFicheros(c.getFicheros().obtener_objetos())
+                        print(f'       {subFicheros} archivos')
+                        print(f'       {cantidad_carpetas} dirs   {c.getPesoTotal()} bytes ocupados\n')
                         return True
+                    elif c.getCarpetas() and c.getFicheros:
+                        for c1 in c.getCarpetas().obtener_objetos():
+                            cantidad_carpetas += 1
+                        for c1 in c.getFicheros().obtener_objetos():
+                            subFicheros += 1
+                        print('  sistema disco local C en Windows')
+                        print('  su numero de serie es WF15EW-62EE\n')
+                        print(f'  Directorio actual es ({self.directorio})\n')
+                        c.getCarpetas().recorrer()
+                        self.showFicheros(c.getFicheros().obtener_objetos())
+                        print(f'       {subFicheros} archivos')
+                        print(f'       {cantidad_carpetas} dirs   {c.getPesoTotal()} bytes ocupados\n')
+                        return True
+                    else:
+                        return False
             for c1 in carpetas:
                 if c1.getCarpetas():
                     subCarpeta.append(c1.getCarpetas())
@@ -76,7 +94,6 @@ class Dir:
         else:
             return False
     def showFicheros(self, ficheros):
-        print('<Archivo Archivos1>')
-        print('{0:2s}  {1:11s} {2:7s} {3:8s}'.format('id:','archivo:','peso:','datos'))
+        print('{0:2s}  {1:18s} {2:5s} {3:3s}'.format('id:','nombre:','peso:','datos:'))
         for f in ficheros:
-            print('{0:2d} | {1:12s} | {2:5d} | {3:18s}'.format(f.getId(),f.getNombre()+f.getExtencion(),f.getPeso(),f.getDatos()))
+            print('{0:2d} | {1:17s} | {2:0d} | {3:18s}'.format(f.getId(),f.getNombre()+f.getExtencion(),f.getPeso(),f.getDatos()))

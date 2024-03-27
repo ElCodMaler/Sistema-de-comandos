@@ -32,7 +32,15 @@ class Cd:
         folder = 'C:'
         carpetas = sistema.getCarpetas()
         ubicacion = ubicacion_actual.split('/')
-        self.profundidad = len(ubicacion)
+        #analizar la entrada
+        buscar_ubicacion = self.comando.getRequicito()[1].split('/')
+        #asignar valores dependiendo del caso
+        if len(buscar_ubicacion) > 1:
+            encontrar_ubicacion = buscar_ubicacion[-1]
+            self.profundidad = len(ubicacion) + len(buscar_ubicacion)-1
+        else:
+            encontrar_ubicacion = self.comando.getRequicito()[1]
+            self.profundidad = len(ubicacion)
         #funcion ir al directorio anterior
         if self.comando.getRequicito()[1] == "..":
             for directorio in ubicacion:
@@ -47,11 +55,11 @@ class Cd:
             return folder
         #recorrer directorios
         else:
-            encontrar = self.buscar(carpetas, self.comando.getRequicito()[1])
+            encontrar = self.buscar(carpetas, encontrar_ubicacion)
             #si la profundidad se redujo con respecto a la cantidad de iteraciones del evento recursivo
             #entonces esta donde debe estar
             if encontrar and self.profundidad == 0:
-                return ubicacion_actual +'/'+ encontrar
+                return ubicacion_actual +'/'+ self.comando.getRequicito()[1]
             else:
                 print('no existe ese directorio')
                 return ubicacion_actual
@@ -65,11 +73,12 @@ class Cd:
             #encontrar la carpeta buscada
             for c in carpetas:
                 if c.getNombre() == entrada:
-                    return entrada
-                elif type(c.getFicheros()) == list and len(c.getFicheros()) > 0:
-                    for fich in c.getFicheros():
+                    return True
+                elif c.getFicheros():
+                    ficheros = c.getFicheros().obtener_objetos()
+                    for fich in ficheros:
                         if fich.getNombre() == entrada:
-                            return fich.getNombre() + fich.getExtencion()
+                            return True
             #crear una lista de objetos Cola de esta carpeta
             #asi podemos asegurar cual de las siguientes carpetas esta llena y cual no
             for c1 in carpetas:
@@ -82,6 +91,6 @@ class Cd:
                     if not subC.esta_vacia():
                         return self.buscar(subC, entrada)
             else:
-                return None
+                return False
         else:
-            return None
+            return False

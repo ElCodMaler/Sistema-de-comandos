@@ -17,7 +17,7 @@ class Asc:
                 if requicitos[0] == entrada[0]:
                     return True
         return False
-    #metodo donde se ejecutara el comando(EN PRODUCCION)
+    #metodo donde se ejecutara el comando
     def ejecutar(self, sistema, ubicacion_actual):
         #asignamos valores
         res = None
@@ -26,7 +26,7 @@ class Asc:
         ubicacion = ubicacion_actual.split('/')
         #encontrar el valor a recorrer
         if ubicacion[-1] == 'C:':
-            res = self.organizarAsc(carpetas)
+            res = self.organizarAsc(carpetas.obtener_objetos())
             print('  sistema disco local C en Windows')
             print('  su numero de serie es WF15EW-62EE\n')
             print(f'  Directorio actual es ({self.directorio})\n')
@@ -44,10 +44,11 @@ class Asc:
             carpetas = system.obtener_objetos()
             subCarpeta = []
             res = None
+            list = None
             for c in carpetas:
                 if c.getNombre() == entrada:
                     if c.getCarpetas():
-                        res = self.organizarAsc(c.getCarpetas())
+                        res = self.organizarAsc(c.getCarpetas().obtener_objetos())
                         print('  sistema disco local C en Windows')
                         print('  su numero de serie es WF15EW-62EE\n')
                         print(f'  Directorio actual es ({self.directorio})\n')
@@ -55,9 +56,29 @@ class Asc:
                         self.showCarpetas(res)
                         print()
                         return True
-                    elif type(c.getFicheros()) == list and len(c.getFicheros()) > 0:
-                        self.showFicheros(c.getFicheros())
+                    elif c.getFicheros():
+                        res = self.organizarAsc(c.getFicheros().obtener_objetos())
+                        print('  sistema disco local C en Windows')
+                        print('  su numero de serie es WF15EW-62EE\n')
+                        print(f'  Directorio actual es ({self.directorio})\n')
+                        print('            recorrido ASC\n')
+                        self.showFicheros(res)
+                        print()
                         return True
+                    elif c.getCarpetas() and c.getFicheros:
+                        print('  sistema disco local C en Windows')
+                        print('  su numero de serie es WF15EW-62EE\n')
+                        print(f'  Directorio actual es ({self.directorio})\n')
+                        print('            recorrido DESC\n')
+                        lista = c.getCarpetas().obtener_objetos()
+                        for f in c.getFicheros().obtener_objetos():
+                            lista.append(f)
+                        res = self.organizarAsc(list)
+                        self.showCarpetas(res)
+                        print()
+                        return True
+                    else:
+                        return False
             for c1 in carpetas:
                 if c1.getCarpetas():
                     subCarpeta.append(c1.getCarpetas())
@@ -66,8 +87,7 @@ class Asc:
         else:
             return False
     #organizar carpetas
-    def organizarAsc(self, carpeta):
-        files = carpeta.obtener_objetos()
+    def organizarAsc(self, files):
         menor = files[0]
         for c in range(len(files)):
             if len(files)-1 == c+1:

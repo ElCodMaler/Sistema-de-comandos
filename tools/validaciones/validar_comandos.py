@@ -6,6 +6,8 @@ from ..comandos.rmdir import Rmdir
 from ..comandos.asc import Asc
 from ..comandos.desc import Desc
 from ..comandos.type import Type
+from ..comandos.help import Help
+from ..comandos.exit import Exit
 
 class ValidarComando:
     def __init__(self, instrucciones: str):
@@ -15,5 +17,7 @@ class ValidarComando:
                                Lista_Comandos().comandos[3].getNombre(): Rmdir(instrucciones),
                                Lista_Comandos().comandos[4].getNombre(): Asc(instrucciones),
                                Lista_Comandos().comandos[5].getNombre(): Desc(instrucciones),
-                               Lista_Comandos().comandos[6].getNombre(): Type(instrucciones)}
+                               Lista_Comandos().comandos[6].getNombre(): Type(instrucciones),
+                               Lista_Comandos().comandos[7].getNombre(): Help(instrucciones),
+                               Lista_Comandos().comandos[8].getNombre(): Exit(instrucciones)}
 

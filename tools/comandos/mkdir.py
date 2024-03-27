@@ -4,6 +4,11 @@ from ..TDA.pilas_colas.colas import Cola
 
 #clase Mkdir
 class Mkdir:
+    """
+    + instrucciones: donde se almacenara los datos de entrada del usuario.
+    + listaC: donde se tendra instanciado la clase Lista_Comandos, que tiene toda la informacion de los comandos.
+    + comando: donde se almacenara el objeto Comando correspondiente de este comando.
+    """
     def __init__(self, instrucciones: list):
         self.instrucciones = instrucciones
         self.listaC = Lista_Comandos()
@@ -11,7 +16,11 @@ class Mkdir:
     #metodo de calidacion del comando
     def existe(self):
         res = []
-        entrada = self.instrucciones.split(' ')
+        entrada = list
+        if '"' in self.instrucciones:
+            entrada = self.instrucciones.split('"')
+        else:
+            entrada = self.instrucciones.split(' ')
         if len(entrada) < 2:
             return False
         for comando in self.listaC.comandos:
@@ -54,7 +63,7 @@ class Mkdir:
                                 continue
                             c.getCarpetas().agregar(Carpeta(dato,0))
                         return True
-                    elif type(c.getFicheros()) == list and len(c.getFicheros()) > 0:
+                    elif c.getFicheros():
                         return False
                     else:
                         c.setCarpetas(Cola())

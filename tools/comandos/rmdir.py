@@ -65,7 +65,7 @@ class Rmdir:
                                 elif subC.getNombre() == dato:
                                     print('el valor no esta vacio')
                         return True
-                    elif type(c.getFicheros()) == list and len(c.getFicheros()) > 0:
+                    else:
                         return False
             for c1 in carpetas:
                 if c1.getCarpetas():

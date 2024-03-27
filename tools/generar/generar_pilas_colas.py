@@ -1,4 +1,4 @@
-from ..crear.sistema_PilasColas import CrearSistema
+from ..construir.sistema_PilasColas import CrearSistema
 import json
 
 #INICIALIZACION DE VARIABLES

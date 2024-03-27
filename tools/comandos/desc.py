@@ -1,7 +1,12 @@
 from .lista import Lista_Comandos
+from components.elementos_sistema import Carpeta
 
 #clase asc
 class Desc:
+    """
+    + instrucciones: donde se almacenara los datos de entrada del usuario.
+    + directorio: es la direccion actual.
+    """
     def __init__(self, instrucciones: list):
         self.instrucciones = instrucciones
         self.directorio = ''
@@ -26,12 +31,12 @@ class Desc:
         ubicacion = ubicacion_actual.split('/')
         #encontrar el valor a recorrer
         if ubicacion[-1] == 'C:':
-            res = self.organizarDesc(carpetas)
+            res = self.organizarDesc(carpetas.obtener_objetos())
             print('  sistema disco local C en Windows')
             print('  su numero de serie es WF15EW-62EE\n')
             print(f'  Directorio actual es ({self.directorio})\n')
             print('            recorrido DESC\n')
-            self.showCarpetas(res)
+            self.showDatos(res)
             return ubicacion_actual
         elif self.buscar(carpetas, ubicacion[-1]):
             return ubicacion_actual
@@ -44,20 +49,41 @@ class Desc:
             carpetas = system.obtener_objetos()
             subCarpeta = []
             res = None
+            lista = None
             for c in carpetas:
                 if c.getNombre() == entrada:
                     if c.getCarpetas():
-                        res = self.organizarDesc(c.getCarpetas())
+                        res = self.organizarDesc(c.getCarpetas().obtener_objetos())
                         print('  sistema disco local C en Windows')
                         print('  su numero de serie es WF15EW-62EE\n')
                         print(f'  Directorio actual es ({self.directorio})\n')
-                        print('            recorrido ASC\n')
-                        self.showCarpetas(res)
+                        print('            recorrido DESC\n')
+                        self.showDatos(res)
                         print()
                         return True
-                    elif type(c.getFicheros()) == list and len(c.getFicheros()) > 0:
-                        self.showFicheros(c.getFicheros())
+                    elif c.getFicheros():
+                        res = self.organizarDesc(c.getFicheros().obtener_objetos())
+                        print('  sistema disco local C en Windows')
+                        print('  su numero de serie es WF15EW-62EE\n')
+                        print(f'  Directorio actual es ({self.directorio})\n')
+                        print('            recorrido DESC\n')
+                        self.showDatos(res)
+                        print()
                         return True
+                    elif c.getCarpetas() and c.getFicheros:
+                        print('  sistema disco local C en Windows')
+                        print('  su numero de serie es WF15EW-62EE\n')
+                        print(f'  Directorio actual es ({self.directorio})\n')
+                        print('            recorrido DESC\n')
+                        lista = c.getCarpetas().obtener_objetos()
+                        for f in c.getFicheros().obtener_objetos():
+                            lista.append(f)
+                        res = self.organizarDesc(list)
+                        self.showDatos(res)
+                        print()
+                        return True
+                    else:
+                        return False
             for c1 in carpetas:
                 if c1.getCarpetas():
                     subCarpeta.append(c1.getCarpetas())
@@ -66,8 +92,7 @@ class Desc:
         else:
             return False
     #organizar carpetas
-    def organizarDesc(self, carpeta):
-        files = carpeta.obtener_objetos()
+    def organizarDesc(self, files):
         menor = files[0]
         for c in range(len(files)):
             if len(files)-1 == c+1:
@@ -78,11 +103,14 @@ class Desc:
                 files[c+1] = menor
                 menor = files[c+1]  
             else:
-                menor = files[c]
+                menor = files[c+1]
 
         return files
     #mostar resultados
-    def showCarpetas(self, lista):
+    def showDatos(self, lista):
         print('{0:2s}  {1:12s}  {2:0s}'.format('id:','nombre:','peso:'))
-        for carpeta in lista:
-            print('{0:2d} | {1:11s}  {2:5d}'.format(carpeta.getId(),carpeta.getNombre(),carpeta.getPesoTotal()))
+        for obj in lista:
+            if type(obj) == Carpeta:
+                print('{0:2d} | {1:11s}  {2:5d}'.format(obj.getId(),obj.getNombre(),obj.getPesoTotal()))
+            else:
+                print('{0:2d} | {1:11s}  {2:5d}'.format(obj.getId(),obj.getNombre(),obj.getPeso()))

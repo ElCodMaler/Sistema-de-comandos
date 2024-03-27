@@ -37,25 +37,28 @@ class CrearSistema:
         return None
     #seccionar documentos por extencion
     def encontrar_imagen(self):
-        lista = []
+        lista = Cola()
         for f in self.lista_ficheros:
             if (f.getExtencion() == '.jpg') or (f.getExtencion() == '.jpeg'):
-                lista.append(f)
+                lista.agregar(f)
         return lista
+    
     def encontrar_musica(self):
-        lista = []
+        lista = Cola()
         for f in self.lista_ficheros:
             if f.getExtencion() == '.mp3':
-                lista.append(f)
+                lista.agregar(f)
         return lista
+    
     def encontrar_videos(self):
-        lista = []
+        lista = Cola()
         for f in self.lista_ficheros:
             if f.getExtencion() in '.mp4':
-                lista.append(f)
+                lista.agregar(f)
         return lista
+    
     def encontar_doc(self):
-        lista = []
+        lista = Cola()
         for f in self.lista_ficheros:
             if f.getExtencion() == '.jpg' or f.getExtencion() == '.jpeg':
                 pass
@@ -64,7 +67,7 @@ class CrearSistema:
             elif f.getExtencion() == '.mp3':
                 pass
             else:
-                lista.append(f)
+                lista.agregar(f)
         return lista
     #guardar ficheros
     def guarda_ficheros(self, ficheros: list[dict]):
@@ -114,7 +117,7 @@ class CrearSistema:
 
     #navegar
     def iniciar_sistema(self):
-        while self.registro_busqueda:
+        while True:
             self.registro_busqueda = self.navegar(self.registro_busqueda)
 
     def navegar(self, busqueda: str):
@@ -124,7 +127,7 @@ class CrearSistema:
             return accion.ejecutar(self.sistema[0], self.registro_busqueda)
         else:
             print('error de ejecucion...')
-            return None
+            return self.registro_busqueda
 
     #mostrar
     def showComandos(self, ent: str):
