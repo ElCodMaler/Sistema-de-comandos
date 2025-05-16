@@ -14,7 +14,7 @@ Para que el programa corra se necesita instalar la libreria de **python-dotenv**
 ```
 
 ## Environment Variables
-Otro requisito es ubicarse en la carpeta **.env** y asignar el valor que indicara el tipo de estructura los valores que recibe son: 'PC' or 'Arb'
+Otro requisito es ubicarse en la carpeta **.env** y asignar el valor que indicara el tipo de estructura. Los valores que recibe son: 'PC' or 'Arb'
 
 `STRUCTURE`
 
