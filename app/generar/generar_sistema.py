@@ -1,5 +1,5 @@
-from ..guardar.guardar_archivos import Entrada_ficheros
-from ..guardar.guardar_carpetas import Entrada_carpetas
+from tools.guardar.guardar_archivos import Entrada_ficheros
+from tools.guardar.guardar_carpetas import Entrada_carpetas
 from ..construir.sistema_Arboles import CrearSistema#necesita un cambio
 import json
 
@@ -36,7 +36,7 @@ for i in range(len(archivos)):
     for arch in lista_entradasFich[i]:
         archivos[i].append(arch.getFicheros())
 #se crea el sistema
-#sis = CrearSistema(archivos, carpetas)
+sis = CrearSistema(archivos, carpetas)
 #impresion con formato
 print('<Archivo Archivos1>')
 print('{0:2s}  {1:11s} {2:11s} {3:7s} {4:8s}'.format('id:','nombre:','extencion:','peso:','datos'))

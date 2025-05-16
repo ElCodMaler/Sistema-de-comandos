@@ -1,6 +1,6 @@
 from .lista import Lista_Comandos
 from components.elementos_sistema import Carpeta
-from ..TDA.pilas_colas.colas import Cola
+from app.TDA.pilas_colas.colas import Cola
 
 #clase Mkdir
 class Mkdir:
