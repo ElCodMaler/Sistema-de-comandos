@@ -1,5 +1,5 @@
 from components.elementos_sistema import Carpeta
-from tools.TDA.arboles.sistema_ficheros import FileSystem
+from ...TDA.arboles.sistema_ficheros import FileSystem
 #clase nodo Binario
 class Directorio:
     """

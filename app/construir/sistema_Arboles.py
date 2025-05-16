@@ -1,7 +1,7 @@
 from components.elementos_sistema import Carpeta, Fichero, Unidad
-from tools.TDA.arboles.sistema_Carpetas import FolderSystem
-from tools.TDA.arboles.sistema_ficheros import FileSystem
-from tools.TDA.arboles.sistema import System
+from ..TDA.arboles.sistema_Carpetas import FolderSystem
+from ..TDA.arboles.sistema_ficheros import FileSystem
+from ..TDA.arboles.sistema import System
 import json
 import sys
 

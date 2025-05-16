@@ -1,5 +1,5 @@
 from components.elementos_sistema import Unidad
-from tools.TDA.arboles.sistema_Carpetas import FolderSystem
+from ...TDA.arboles.sistema_Carpetas import FolderSystem
 #clase nodo
 class Nodo:
     """
