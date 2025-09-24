@@ -1,46 +1,41 @@
-from .TDA.trees.system import System
 from templates.unity import Unity
 from templates.file import File
-from templates.folder import Folder
+from .commands import Command
 import json
+
 #class DRIVER
 class Driver:
-    def __init__(self, file: str) -> None:
-        self.file_json = f"{file}.json"
-        self.db_file = {}
-        self.system = System(Unity(file,3000))
-    #
-    def createSystem(self):
+    def __init__(self, file: str, storage: int) -> None:
+        self._file_json = f"{file}.json"
+        self._db_file = {}
+        self._system = Unity(file,storage)
+        self._commands: Command
+        self._create_system()
+    # ================== UTILS ===============
+
+    def start(self):
+        """ Inicio del sistema """
+        cm = self._commands
+        while True:
+            res = input(f'{cm.browse}')
+            if not cm.validate(res):
+                print('comando no reconocido')
+
+    # ====================== FUNCIONES PROTEGIDAS ======================
+    def _create_system(self):
+        """ Se genera el sistemas con todas las entradas"""
         self._trasnform_json_dict()
-        self._enter_data()
+        self._read_doc('',self._db_file)
+        self._commands = Command(self._system.drive_folder)
 
     def _trasnform_json_dict(self):
-        with open(f'db/{self.file_json}', 'r', encoding='utf-8') as archivo:
-            self.db_file = json.load(archivo)
+        with open(f'db/{self._file_json}', 'r', encoding='utf-8') as archivo:
+            self._db_file = json.load(archivo)
 
-    def _enter_data(self):
-        if not self.db_file:
-            raise ValueError("No se pueden ingresar los datos, el valor esta vacio")
-
-    def _recorrido_file(self, padre:str, hijo, counter: int=0):
-        folders = []
-        for key, value in self.db_file:
+    def _read_doc(self, padre:str, dic: dict):
+        for key, value in dic.items():
             if isinstance(value,dict):
-                self.system.add(padre,Folder(key))
-                folders.append(value)
-            elif isinstance(value,str):
-                self.system.add(File(key,value))
-        for fol in folders:
-            for key, value in fol:
-                if isinstance(value,dict):
-                    self.system.raiz.directory.add(Folder)
-
-        
-
-            
-
-           
-
-
-        
-    
+                self._system.drive_folder.add(padre,key)
+                self._read_doc(key,value)
+            else:
+                self._system.drive_folder.add(padre,File(key,value))
