@@ -19,7 +19,7 @@ class Driver:
         while True:
             res = input(f'{cm.browse}')
             if not cm.validate(res):
-                print('comando no reconocido')
+                print('Comando no reconocido')
 
     # ====================== FUNCIONES PROTEGIDAS ======================
     def _create_system(self):
