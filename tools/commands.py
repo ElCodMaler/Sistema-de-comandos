@@ -1,19 +1,18 @@
 from .TDA.trees.nodos.folder_node import FolderNode, File
-from .TDA.trees.tree_n_ario import DriveSystem
-from .TDA.trees.tree_binario import DriveDirectory
-#Clase Comandos
-class Command:
-    """ 
-     + dirver: el DriveSystem.
-     + actual: el Directorio o File actual.
-     + browse: la representacion de la navegacion.
-    """
-    def __init__(self, drive: DriveSystem):
-        self._driver = drive
-        self.actual: FolderNode | File = self._driver.raiz
-        self.browse: str = self.actual.getName()+'/'
+from .TDA.trees.tree_n_ario import DriveDirectory
+from .TDA.trees.tree_binario import Organizer
 
-    def validate(self, command: str) -> bool:
+class Command:
+    """
+     + current: the current directory or File.
+     + browse: representation of navigation.
+    """
+    def __init__(self, driver: DriveDirectory):
+        self._driver = driver
+        self.current: FolderNode | File = self._driver.root
+        self.browse: str = self.current.getName()+'/'
+
+    def validation(self, command: str) -> bool:
         """ Validacion del comando ingresado """
         cm = command.split(' ')
         if len(cm) == 1:
@@ -23,78 +22,69 @@ class Command:
                 return self._desc()
             elif 'dir' == cm[0]:
                 return self._dir()
+            elif 'ls' == cm[0]:
+                return self._ls()
             elif 'exit' == cm[0]:
                 return exit()
             elif 'help' == cm[0]:
                 return self._help()
-        elif len(cm) == 2:
+        elif len(cm) == 2 and 'cd' == cm[0]:
+            res = self._cd(cm[1])
+            if not res:
+                print("directory not found.")
+            return res
+        elif len(cm) >= 2:
             if 'mkdir' == cm[0]:
                 return self._mkdir(cm[1])
             elif 'rmdir' == cm[0]:
                 return self._rmdir(cm[1])
-            elif 'cd' == cm[0]:
-                return self._cd(cm[1])
         return False
 
-    # ====================== FUNCIONES PROTEGIDAS ======================
-
-    # comando ASC (Ascendente)
-    def _asc(self) -> bool:
-        """ Imprecion ascedente del directorio actual (/asc)"""
-        if isinstance(self.actual, FolderNode):
-            res = DriveDirectory(self.actual)
-            res.imprimir_preorden()
-            return True
-        return False
-    # comando CD
+    # ====================== PROTECTED FUNCTIONS ======================
     def _cd(self, name: str) -> bool:
-        """ Importante, base de la navegacion entre directorios """
+        """ directory navigation """
         directory_ls: list[str] = [] # lista de directorios
         nav_ls = name.split('/') # lista de navegacion
         if len(nav_ls) > 1:
-            inicio = self.actual
-            browse_init = self.browse
-            res = self._eval_grado(self.actual ,nav_ls)
+            prev_folder = self.current
+            prev_path = self.browse
+            res = self._eval_grado(self.current ,nav_ls)
             if res:
-                self.actual = res
+                self.current = res
                 return True
-            self.browse =browse_init
-            self.actual = inicio
-            print("No se encuentra la ruta asignada.")
+            self.browse =prev_path
+            self.current = prev_folder
             return False
         elif name == '..':
-            res = self._buscar_padre()
+            res = self._search_father()
             if res:
-                self.actual = res
+                self.current = res
                 return True
-            print("error: en la busqueda del directoio anterior.")
             return False
-        if not isinstance(self.actual,FolderNode):
-            print("Ya estas en un File")
+        if not isinstance(self.current,FolderNode):
             return False
-        for d in self.actual.childs:
+        for d in self.current.children:
             directory_ls.append(d.getName())
         if name in directory_ls:
             res = self._driver.get(name)
             if res:
                 self.browse += res.getName()+"/"
-                self.actual = res
+                self.current = res
                 return True
         else:
-            res = self._driver.raiz if self._driver.raiz.getName() == name else None
+            res = self._driver.root if self._driver.root.getName() == name else None
             if res:
-                self.actual = res
-                self.browse = self.actual.getName()+'/'
+                self.current = res
+                self.browse = self.current.getName()+'/'
                 return True
-        print("No se haya el directorio siguiente.")
         return False
-
     # ================= PIVOT DIR ==================
     def _eval_grado(self, directory: FolderNode | File, directorys: list[str]) -> FolderNode | File | None:
+        """ pivot to recognize the scale of directories """
         child_list: list[str] = []
         if isinstance(directory, FolderNode):
-            childs = directory.childs
-            for c in childs:
+            children = directory.children
+            for c in children:
                 child_list.append(c.getName())
         if not directorys:
             return directory
@@ -105,10 +95,11 @@ class Command:
                 self.browse += res.getName()+'/'
                 return self._eval_grado(res,directorys)
         
-    def _buscar_padre(self):
+    def _search_father(self):
+        """ find the previous directory """
         directory_ls = self.browse.split('/')
-        if self._driver.raiz.getName() == directory_ls[-2]:
-            print("estas en la raiz del sistema...")
+        if self._driver.root.getName() == directory_ls[-2]:
+            print("you are at the root of the system")
             return None
         res = self._driver.get(directory_ls[-3])
         if isinstance(res, FolderNode):
@@ -117,38 +108,56 @@ class Command:
             self.browse = '/'.join(directory_ls) +'/'
             return res
         return None
-        
-    # comando DESC
+    # ==================== end to pivot dir functions ==================
+
+    def _asc(self) -> bool:
+        """ ascending impression of folders and files """
+        if isinstance(self.current, FolderNode):
+            res = Organizer(self.current)
+            res.print_info_preorder()
+            return True
+        return False
+
     def _desc(self):
-        """ Imprecion descendente del directorio actual (/desc)"""
-        if isinstance(self.actual, FolderNode):
-            res = DriveDirectory(self.actual)
-            res.imprimir_postorden()
+        """ printing folders and files in descending order """
+        if isinstance(self.current, FolderNode):
+            res = Organizer(self.current)
+            res.print_info_postorder()
             return True
         return False
-    # comando DIR
+
     def _dir(self):
-        """ ver lista de directorios """
-        if isinstance(self.actual, FolderNode):
-            res = DriveDirectory(self.actual)
-            res.imprimir_inorden()
+        """ display the contents of the folder """
+        if isinstance(self.current, FolderNode):
+            res = Organizer(self.current)
+            res.print_list()
             return True
         return False
-    # comando HELP
+
     def _help(self):
-        print("+ asc: imprecion ascendente desde el directorio actual.")
-        print("+ cd: acceso al subfolder proximo al actual..")
-        print("+ desc: impresion en orden descendente desde el directorio actual.")
-        print("+ dir: impresion de directorios que se encuentran disponibles.")
-        print("+ exit: salida del programa de comandos actual.")
-        print("+ help: lista de comandos disponibles.")
-        print("+ mkdir: generar nuevo folder en el directorio actual.")
-        print("+ rmdir: remover un directorio del directorio actual.")
-        print("+ type: reconocer el tipo de archivo.")
+        """ show available commands """
+        print("asc | ascending impression of folders and files")
+        print("desc | printing folders and files in descending order")
+        print("dir | display the contents of the folder")
+        print("ls | detailed list of subfolders")
+        print("exit | close the program")
+        print("help | show available commands")
+        print("cd [directory] or [..] | directory navigation")
+        print("mkdir [name_folder] or [name_f1] [name_f2] ..[name_n] | generate one or more folders in the current directory")
+        print("rmdir [name_folder] or [name_f1] [name_f2] ..[name_n] | remove one or more empty files")
+        print("type [name_file] | show file content")
         return True
-    # comando mkdir
+    
+    def _ls(self):
+        """ detailed list of subfolders (ls) """
+        if isinstance(self.current, FolderNode):
+            res = Organizer(self.current)
+            res.print_info_preorder()
+            return True
+        return False
+
     def _mkdir(self, new_folder:str) -> bool:
-        return self._driver.add(self.actual.getName(),new_folder)
-    # comando rmdir
+        return self._driver.add(self.current.getName(),new_folder)
+
     def _rmdir(self, delete_folder: str) -> bool:
         return self._driver.delete(delete_folder)

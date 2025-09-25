@@ -2,43 +2,46 @@ from typing import Union
 from templates.file import File
 from datetime import datetime
 
-# nodo n-ario
+# n-ary node
 class FolderNode:
-    """Nodo para carpetas (puede tener hijos)"""
+    """ 
+    + children: list of children (FolderNode and File)
+    """
     def __init__(self, name: str) -> None:
         self._name = name
-        self.childs: list[Union['FolderNode', File]] = []
+        self.children: list[Union['FolderNode', File]] = []
         self._date: datetime = datetime.now()
         self._weight: int = 0
     # post init
     def __post_init__(self):
-        """Calcula el tamaño total al crear el nodo"""
+        """ calculate the size when adding a node """
         self._update_weight()
-    # funcion protegida de la clase
+    # protected function
     def _update_weight(self):
-        """Calcula el tamaño total recursivamente"""
+        """ update weight recursively """
         self._weight = 0
-        for hijo in self.childs:
-            if isinstance(hijo,File):
-                self._weight += hijo.getWeight()
+        for son in self.children:
+            if isinstance(son,File):
+                self._weight += son.getWeight()
             else:
-                self._weight += hijo._weight
-    # ---------------- Functions -----------------
-    def addChild(self, hijo: Union['FolderNode', File]):
-        """Agrega un hijo y actualiza el tamaño"""
-        self.childs.append(hijo)
+                self._weight += son._weight
+    # ======================= UTILITIES =======================
+    def addChild(self, son: Union['FolderNode', File]):
+        """ add a child to node """
+        self.children.append(son)
         self._update_weight()
     
     def info(self):
-        """Imprecion de la informacion de este nodo"""
-        print(f"📁 {self._name} ({len(self.childs)} hijos, {self._weight} bytes)")
+        """ Detailed printout of the current node data """
+        print(f"📁 {self.getName()} ({self.getWeight()} bytes)  {self.getCreateDate()}")
 
     def print_content(self):
-        for child in self.childs:
-            if isinstance(child,File):
-                print(f"📄 {child.getName()} ({child.getWeight()} bytes)  {child.getCreateDate()}")
+        """ Detailed printout of FolderNode content """
+        for son in self.children:
+            if isinstance(son,File):
+                print(f"📄 {son.getName()} ({son.getWeight()} bytes)  {son.getCreateDate()}")
             else:
-                print(f"📁 {child.getName()} ({child.getWeight()} bytes)  {child.getCreateDate()}")
+                print(f"📁 {son.getName()} ({son.getWeight()} bytes)  {son.getCreateDate()}")
 
     # -------- Getters ----------
     def getWeight(self) -> int:

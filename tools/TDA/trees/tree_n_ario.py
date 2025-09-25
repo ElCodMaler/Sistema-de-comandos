@@ -1,70 +1,76 @@
 from .nodos.folder_node import FolderNode
 from templates.file import File
 
-#clase Arbol N-ario
-class DriveSystem:
+# n-ary tree
+class DriveDirectory:
     """
-    + raiz: el primer FolderNode
+    + root: first FolderNode
     """
     def __init__(self, name_folder: str):
-        self.raiz = FolderNode(name_folder)
+        self.root = FolderNode(name_folder)
 
-    # ----------- Encontrar nodo (Búsqueda en profundidad) -----------
-    
-    def get(self, name: str, nodo: FolderNode | None=None) -> FolderNode| File | None:
-        if not nodo:
-            nodo = self.raiz
-        if nodo.getName() == name:
-            return nodo
-        for hijo in nodo.childs:
-            if hijo.getName() == name:
-                if isinstance(hijo, FolderNode):
-                    return hijo
-                return hijo
-            if isinstance(hijo, FolderNode):
-                resultado = self.get(name, hijo)
+    # ===================== UTILITIES ======================
+
+    def get(self, name: str, node: FolderNode | None=None) -> FolderNode | File | None:
+        """ get a file or folder by its name """
+        if not node:
+            node = self.root
+        if node.getName() == name:
+            return node
+        for son in node.children:
+            if son.getName() == name:
+                if isinstance(son, FolderNode):
+                    return son
+                return son
+            if isinstance(son, FolderNode):
+                resultado = self.get(name, son)
                 if resultado:
                     return resultado
         return None
 
-    # ----------- Agregar nodo -----------
-    def add(self, folder_padre:str='', new_hijo:File | str='') -> bool:
-        if new_hijo == '':
-            print("el argumento del hijo no puede estar vacio...")
+    def add(self, parent_folder:str='', new_son:File | str='') -> bool:
+        """ 
+        Add a new file or folder by following these steps:
+        + Folder: str
+        + File: File object
+        """
+        if new_son == '':
+            print("the son's argument cannot be empty...")
             return False
-        if folder_padre == '':
-            folder_padre = self.raiz.getName()
-        padre = self.get(folder_padre)
-        if isinstance(padre,File):
-            print(f"⚠️ No se puede asignar un File o Folder a un archivo: {new_hijo}")
-        elif isinstance(padre,FolderNode):
-            if isinstance(new_hijo,str):
-                padre.addChild(FolderNode(new_hijo))
+        if parent_folder == '':
+            parent_folder = self.root.getName()
+        father = self.get(parent_folder)
+        if isinstance(father,File):
+            print(f"⚠️ Cannot assign a File or Folder to file: {new_son}")
+        elif isinstance(father,FolderNode):
+            if isinstance(new_son,str):
+                father.addChild(FolderNode(new_son))
             else:
-                padre.addChild(new_hijo)
+                father.addChild(new_son)
         return True
-    # ----------- Eliminar nodo -----------
-    def delete(self, file_name: str):
-        if self.raiz.getName() == file_name:
-            print("⚠️ No se puede eliminar la raíz del Folder System")
-            return False
-        return self._eliminar_recursivo(self.raiz, file_name)
 
-    def _eliminar_recursivo(self, nodo: FolderNode, file_name: str):
-        for i, hijo in enumerate(nodo.childs):
-            if hijo.getName() == file_name:
-                nodo.childs.pop(i)  # elimina el hijo (y todos sus descendientes)
+    def delete(self, name: str):
+        """ delete file or folder by name """
+        if self.root.getName() == name:
+            print("⚠️ Cannot delete root of DriveDirectory")
+            return False
+        return self._delete_recursive(self.root, name)
+    # pivot delete recursive
+    def _delete_recursive(self, node: FolderNode, name: str):
+        for i, son in enumerate(node.children):
+            if son.getName() == name:
+                node.children.pop(i)  # elimina el son (y todos sus descendientes)
                 return True
-            elif isinstance(hijo, FolderNode):
-                if self._eliminar_recursivo(hijo, file_name):
+            elif isinstance(son, FolderNode):
+                if self._delete_recursive(son, name):
                     return True
         return False
-    # ----------- Imprimir árbol (recursivo) -----------
-    def imprimir(self, nodo: FolderNode| None=None, level: int=0):
-        if not nodo:
-            nodo = self.raiz
-        
-        for hijo in nodo.childs:
-            print(f"{" "*level}- {hijo.getName()}")
-            if isinstance(hijo,FolderNode):
-                self.imprimir(hijo,level+1)
+
+    def printTree(self, node: FolderNode| None=None, level: int=0):
+        """ recursive tree printing """
+        if not node:
+            node = self.root
+        for son in node.children:
+            print(f"{" "*level}- {son.getName()}")
+            if isinstance(son,FolderNode):
+                self.printTree(son,level+1)

@@ -1,173 +1,177 @@
-from .nodos.directory_node import Node_B, FolderNode, File
+from .nodos.organize_node import Node_B, FolderNode, File
 from typing import Union
 
-# arbol Binario
-class DriveDirectory:
-    """ + raiz: El primer nodo Binario """
+# binary tree
+class Organizer:
+    """ + root: first binary node """
     def __init__(self, directory: FolderNode):
-        self.raiz = Node_B(directory)
+        self.root = Node_B(directory)
         self._entry_tree()
 
-    # ==================== UTILIDADES ====================
+    # ==================== UTILITIS ====================
 
-    def altura(self) -> int:
-        """Calcula la altura del árbol"""
-        if not self.raiz:
-            raise ValueError("El arbol binario esta vacio...")
-        return self._calcular_altura(self.raiz)
+    def height(self) -> int:
+        """ height of the binary tree """
+        if not self.root:
+            raise ValueError("the tree Binary do not want void")
+        return self._calculate_height(self.root)
 
-    def cantidad_nodos(self) -> int:
-        """Cuenta la cantidad total de nodos"""
-        if not self.raiz:
-            raise ValueError("El arbol binario esta vacio...")
-        return self._contar_nodos(self.raiz)
+    def number_nodes(self) -> int:
+        """ the number of nodes in the binary tree (Organizer) """
+        if not self.root:
+            raise ValueError("the tree is empty")
+        return self._node_counter(self.root)
 
     def add(self, value: FolderNode | File):
-        """Asignar una File o Folder al Nodo Binario"""
-        if not value:
-            raise ValueError("Siempre debe haber un valor")
-        return self._insertar_por_prioridades(value)
+        """ add a file or folder to the binary tree """
+        return self._insert_by_priorities(value)
     
-    # ===================== FUNCIONES PROTEGIDAS ======================
+    # ===================== PROTECTED FUNCTIONS ======================
 
     def _entry_tree(self):
-        childs = self.raiz.directory.childs if isinstance(self.raiz.directory, FolderNode) else None
-        if not childs:
-            raise ValueError("No puede recorrerse un File.")
-        for directory in childs:
+        """ insert the entire contents of the folder into the binary tree """
+        children = self.root.value.children if not isinstance(self.root.value, File) else None
+        if not children:
+            print("There is no content in this folder.")
+            return
+        for directory in children:
             self.add(directory)
     
-    def _insertar_por_prioridades(self, value: FolderNode | File) -> bool:
-        """Inserta manteniendo el orden de prioridades: peso → longitud → alfabético"""
-        if not self.raiz:
-            self.raiz = Node_B(value)
+    def _insert_by_priorities(self, value: FolderNode | File) -> bool:
+        """ insert keeping the order of priorities: weight → length → alphabetical """
+        if not self.root:
+            self.root = Node_B(value)
             return True
-        actual = self.raiz
+        actual = self.root
         nuevo_nodo = Node_B(value)
         while True:
-            comparacion = self._comparar_valores(value, actual.directory)
+            comparacion = self._compare_entrys(value, actual.value)
             if comparacion < 0:  # folder tiene mayor prioridad
-                if not actual.izquierda:
-                    actual.izquierda = nuevo_nodo
+                if not actual.left:
+                    actual.left = nuevo_nodo
                     return True
-                actual = actual.izquierda
+                actual = actual.left
             else:  # folder tiene menor o igual prioridad
-                if not actual.derecha:
-                    actual.derecha = nuevo_nodo
+                if not actual.right:
+                    actual.right = nuevo_nodo
                     return True
-                actual = actual.derecha
+                actual = actual.right
             
 
-    def _comparar_valores(self, item1: FolderNode | File, item2: FolderNode | File) -> int:
+    def _compare_entrys(self, item1: FolderNode | File, item2: FolderNode | File) -> int:
         """
-        Compara dos folders según el sistema de prioridades:
-        1. Peso (mayor primero)
-        2. Longitud del nombre (más larga primero)
-        3. Orden alfabético/númerico carácter por carácter
-        
-        Devuelve: -1 (folder1 primero), 0 (iguales), 1 (folder2 primero)
+        Compares two values(Folder/File) based on the following priority system:
+        1. Weight (largest first)
+        2. Name length (longest first)
+        3. Alphabetical/numeric order character by character
+
+        Returns: -1 (item1 first), 0 (equal), 1 (item2 first)
         """
-        # Prioridad 1: peso (mayor peso primero)
+        # Priority 1: weight (heaviest weight first)
         if item1.getWeight() != item2.getWeight():
             return -1 if item1.getWeight() > item2.getWeight() else 1
-        
-        # Prioridad 2: Longitud del nombre (más largo primero)
+        # Priority 2: Name length (longest first)
         if len(item1.getName()) != len(item2.getName()):
             return -1 if len(item1.getName()) > len(item2.getName()) else 1
-        
-        # Prioridad 3: Orden alfabético/númerico carácter por carácter
+        # Priority 3: Alphabetical/numeric order character by character
         for char1, char2 in zip(item1.getName(), item2.getName()):
             if char1 != char2:
-                # Manejar dígitos vs letras
+                # Handling digits vs. letters
                 if char1.isdigit() and char2.isdigit():
                     return -1 if int(char1) > int(char2) else 1
                 elif char1.isdigit():
-                    return -1  # Dígitos tienen prioridad sobre letras
+                    return -1  # Digits take priority over letters.
                 elif char2.isdigit():
-                    return 1   # Dígitos tienen prioridad sobre letras
+                    return 1 
                 else:
                     return -1 if char1 > char2 else 1
+        return 0  # They are equal in all priorities
         
-        return 0  # Son iguales en todas las prioridades
-        
-    def _contar_nodos(self, nodo: Node_B | None) -> int:
+    def _node_counter(self, nodo: Node_B | None) -> int:
+        """ count all nodes to binary tree """
         if not nodo:
             return 0
-        return 1 + self._contar_nodos(nodo.izquierda) + self._contar_nodos(nodo.derecha)
+        return 1 + self._node_counter(nodo.left) + self._node_counter(nodo.right)
     
-    def _calcular_altura(self, nodo: Node_B | None) -> int:
+    def _calculate_height(self, nodo: Node_B | None) -> int:
+        """ search height """
         if not nodo:
             return 0
-        return 1 + max(self._calcular_altura(nodo.izquierda), 
-                      self._calcular_altura(nodo.derecha))
+        return 1 + max(self._calculate_height(nodo.left), 
+                      self._calculate_height(nodo.right))
         
-    # ==================== RECORRIDOS ====================
+    # ==================== ROUND ====================
     
-    def inorden(self):
-        """Recorrido inorden: izquierda → raíz → derecha"""
-        if not self.raiz:
-            raise ValueError("El arbol binario esta vacio...")
-        return self._inorden_recursivo(self.raiz)
-    
-    def _inorden_recursivo(self, nodo: Node_B | None) -> list[Union[FolderNode,File]]:
+    def inorder(self):
+        """ in-order traversal: left → root → right """
+        if not self.root:
+            raise ValueError("the tree is empty")
+        return self._inorder_recursive(self.root)
+    # in-order recursive pivot
+    def _inorder_recursive(self, nodo: Node_B | None) -> list[Union[FolderNode,File]]:
         if not nodo:
             return []
-        return (self._inorden_recursivo(nodo.izquierda) + 
-                    [nodo.directory] + 
-                    self._inorden_recursivo(nodo.derecha))
+        return (self._inorder_recursive(nodo.left) + 
+                    [nodo.value] + 
+                    self._inorder_recursive(nodo.right))
     
-    def preorden(self):
-        """Recorrido preorden: raíz → izquierda → derecha"""
-        if not self.raiz:
-            raise ValueError("El arbol binario esta vacio...")
-        return self._preorden_recursivo(self.raiz)
-    
-    def _preorden_recursivo(self, nodo: Node_B | None) -> list[Union[FolderNode,File]]:
+    def preorder(self):
+        """ pre-order traversal: root → left → right """
+        if not self.root:
+            raise ValueError("the tree is empty")
+        return self._preorder_recursive(self.root)
+    # pre-order recursive pivot
+    def _preorder_recursive(self, nodo: Node_B | None) -> list[Union[FolderNode,File]]:
         if not nodo:
             return []
-        return ([nodo.directory] + 
-                    self._preorden_recursivo(nodo.izquierda) + 
-                    self._preorden_recursivo(nodo.derecha))
+        return ([nodo.value] + 
+                    self._preorder_recursive(nodo.left) + 
+                    self._preorder_recursive(nodo.right))
     
     def postorden(self) -> list[Union[FolderNode,File]]:
-        """Recorrido postorden: izquierda → derecha → raíz"""
-        if not self.raiz:
-            raise ValueError("El arbol binario esta vacio...")
-        return self._postorden_recursivo(self.raiz)
-    
-    def _postorden_recursivo(self, nodo: Node_B | None) -> list[Union[FolderNode,File]]:
+        """ post-order traversal: left → right → root """
+        if not self.root:
+            raise ValueError("the tree is empty")
+        return self._postorder_recursive(self.root)
+    # post-order recursive pivot
+    def _postorder_recursive(self, nodo: Node_B | None) -> list[Union[FolderNode,File]]:
         if not nodo:
             return []
-        return (self._postorden_recursivo(nodo.izquierda) + 
-                    self._postorden_recursivo(nodo.derecha) + 
-                    [nodo.directory])
+        return (self._postorder_recursive(nodo.left) + 
+                    self._postorder_recursive(nodo.right) + 
+                    [nodo.value])
     
-    # ==================== IMPRESIÓN BONITA ====================
+    # ==================== PRITING NICE ====================
     
-    def imprimir_inorden(self) -> None:
-        """Imprime el recorrido inorden de forma legible"""
-        print("🌳 RECORRIDO INORDEN:")
-        print("(Izquierdo → Raíz → Derecho)")
-        print("=" * 50)
-        directorys = self.inorden()
+    def print_info_inorder(self) -> None:
+        """ print in-order of detailed information """
+        directorys = self.inorder()
         for directory in directorys:
+            if directory.getName() == self.root.value.getName():
+                continue
             directory.info()
     
-    def imprimir_preorden(self) -> None:
-        """Imprime el recorrido preorden de forma legible"""
-        print("🌳 RECORRIDO PREORDEN:")
-        print("(Raíz → Izquierdo → Derecho)")
-        print("=" * 50)
-        directorys = self.preorden()
+    def print_info_preorder(self) -> None:
+        """ print pre-order of detailed information """
+        directorys = self.preorder()
         for directory in directorys:
+            if directory.getName() == self.root.value.getName():
+                continue
             directory.info()
     
-    def imprimir_postorden(self) -> None:
-        """Imprime el recorrido postorden de forma legible"""
-        print("🌳 RECORRIDO POSTORDEN:")
-        print("(Izquierdo → Derecho → Raíz)")
-        print("=" * 50)
+    def print_info_postorder(self) -> None:
+        """ print post-order of detailed information """
         directorys = self.postorden()
         for directory in directorys:
+            if directory.getName() == self.root.value.getName():
+                continue
             directory.info()
-    
+
+    def print_list(self) -> None:
+        """ print list from left to right """
+        directorys = self.inorder()
+        for directory in directorys:
+            if directory.getName() == self.root.value.getName():
+                continue
+            print(directory.getName(),end=' ')
+        print()

@@ -1,4 +1,4 @@
-from tools.TDA.trees.tree_n_ario import DriveSystem
+from tools.TDA.trees.tree_n_ario import DriveDirectory
 #clase UNITY
 class Unity:
     '''
@@ -11,13 +11,13 @@ class Unity:
     def __init__(self, name:str="C:", storage:int= 600):
         self._name = name
         self._storage = storage
-        self.drive_folder = DriveSystem(name)
+        self.drive_folder = DriveDirectory(name)
         self._weight = 0
         self._gap = self._storage - self._weight
     # post init
     def __post_init__(self):
         """Calcula el tamaño total al crear el nodo"""
-        self._weight = self.drive_folder.raiz.getWeight()
+        self._weight = self.drive_folder.root.getWeight()
         
     #metodos GET
     def getName(self) -> str:
