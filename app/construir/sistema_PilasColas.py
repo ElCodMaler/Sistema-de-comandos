@@ -1,7 +1,7 @@
 from components.elementos_sistema import Unidad, Carpeta, Fichero
 from tools.validaciones.validar_comandos import ValidarComando
-from ..TDA.pilas_colas.pilas import Pila
-from ..TDA.pilas_colas.colas import Cola
+from tools.TDA.pilas_colas.pilas import Pila
+from tools.TDA.pilas_colas.colas import Cola
 from components.usuario import User
 import json
 import sys

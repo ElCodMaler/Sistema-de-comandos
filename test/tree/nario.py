@@ -4,21 +4,14 @@ ya que tienen un orden por alturas, se aprovechara para buscar la profundidad la
 y asi mejorar la estructura del sistema de busqueda de ficheros.
 """
 # importamos el arbol binario...
-from templates.file import File
-from tools.TDA.trees.tree_n_ario import DriveSystem,DriveDirectory
+from trees.tree_n_ario import DriveDirectory, FolderNode, File
 
 #funcion
-def evaluar_res(res: DriveDirectory | File | None):
+def evaluar_res(res: FolderNode | File | None):
     if not res:
         print(f'No se encontro...')
-    elif isinstance(res, DriveDirectory):
-        print(f'Se encontro ({res.raiz.directory.getName()})')
-        res.imprimir_inorden()
-        print()
-        res.imprimir_postorden()
-        print()
-        res.imprimir_preorden()
-        print()
+    elif isinstance(res, FolderNode):
+        print(f'Se encontro ({res.getName()})')
     else:
         print(f'se encontro el archivo: {res.getName()}')   
 
@@ -27,7 +20,7 @@ print("Inicio de las  pruebas...")
 a1 = File("archivo1.txt","contenido del archivo 1")
 a2 = File("archivo2.txt","contenido del archivo 2")
 # Instancia de la funcion
-sn = DriveSystem("carpeta1")
+sn = DriveDirectory("carpeta1")
 # funciones caracteristicas del objeto
 if not sn.add('',a1):
     raise ValueError("NO")
@@ -57,10 +50,10 @@ evaluar_res(res3)
 evaluar_res(res4)
 
 # impresion de resultados
-sn.raiz.print_content()
+sn.root.print_content()
 print()
 if sn.delete("carpeta3"):
     print('se elimino la carpeta 3')
 print()
-sn.raiz.print_content()
+sn.root.print_content()
 print("<==================== END ======================>")

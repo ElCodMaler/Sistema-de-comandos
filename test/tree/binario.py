@@ -4,9 +4,19 @@ ya que tienen un orden por alturas, se aprovechara para buscar la profundidad la
 y asi mejorar la estructura del sistema de busqueda de ficheros.
 """
 # importamos el arbol binario...
-from tools.TDA.trees.tree_binario import DriveDirectory, FolderNode, File
+from trees.tree_binario import Organizer, FolderNode, File
 
 print("Inicio de las  pruebas...")
+# crear padre
+folder = FolderNode("C")
+
+# generar valores hijo
+c1 = FolderNode("carpeta1")
+c2 = FolderNode("carpeta2")
+c3 = FolderNode("carpeta3")
+c4 = FolderNode("carpeta4")
+c5 = FolderNode("carpeta5")
+c6 = FolderNode("carpeta6")
 # generamos varios archivos
 a1 = File("archivo1.txt","contenido del archivo 1")
 a2 = File("archivo2.txt","contenido del archivo 2")
@@ -14,63 +24,26 @@ a3 = File("archivo3.txt","contenido del archivo 3")
 a4 = File("archivo4.txt","contenido del archivo 4")
 a5 = File("archivo5.txt","contenido del archivo 5")
 a6 = File("archivo6.txt","contenido del archivo 6")
-a7 = File("archivo7.txt","contenido del archivo 7")
-a8 = File("archivo8.txt","contenido del archivo 8")
-a9 = File("archivo9.txt","contenido del archivo 9")
-a10 = File("archivo10.txt","contenido del archivo 10")
-# generamos varios Folders
-c1 = FolderNode("carpeta1")
-c2 = FolderNode("carpeta2")
-c3 = FolderNode("carpeta3")
-c4 = FolderNode("carpeta4")
-# subfolders
-sa = FolderNode("subfolderA")
-sb = FolderNode("subfolderB")
-sc = FolderNode("subfolderC")
-sd = FolderNode("subfolderD")
-sE = FolderNode("subfolderE")
-sf = FolderNode("subfolderF")
-sg = FolderNode("subfolderG")
-sh = FolderNode("subfolderH")
-si = FolderNode("subfolderI")
-sj = FolderNode("subfolderJ")
-sk = FolderNode("subfolderK")
-
-# ahora inicializamos el sistema
-sys = DriveDirectory(c1)
-# insertamos carpetas al nodo binario...
-if not sys.add(a1):
-    raise ValueError("no se guardo")
-if not sys.add(c2):
-    raise ValueError("no se guardo")
-if not sys.add(c3):
-    raise ValueError("no se guardo")
-if not sys.add(c4):
-    raise ValueError("no se guardo")
-if not sys.add(a2):
-    raise ValueError("no se guardo")
-if not sys.add(a3):
-    raise ValueError("no se guardo")
-if not sys.add(sa):
-    raise ValueError("no se guardo")
-if not sys.add(sb):
-    raise ValueError("no se guardo")
-if not sys.add(a4):
-    raise ValueError("no se guardo")
-if not sys.add(a5):
-    raise ValueError("no se guardo")
-if not sys.add(sf):
-    raise ValueError("no se guardo")
-if not sys.add(a7):
-    raise ValueError("no se guardo")
+# agregamos hijos al padre
+folder.addChild(a1)
+folder.addChild(a2)
+folder.addChild(a3)
+folder.addChild(a4)
+folder.addChild(c1)
+folder.addChild(c2)
+folder.addChild(c3)
+folder.addChild(a5)
+# empezamos a usar la funciones de la clase Organizer
+sys = Organizer(folder)
 
 # SALIDAS
 print("<==================== SALIDAS ======================>")
-sys.imprimir_inorden()
-print()
-sys.imprimir_preorden()
-print()
-sys.imprimir_postorden()
-print()
-sys.imprimir_arbol_visual()
+print("salida de la funcion inorden")
+sys.print_info_inorder()
+print("salida de la funcion postorden")
+sys.print_info_postorder()
+print("salida de la funcion preorden")
+sys.print_info_preorder()
+print("salida de la funcion list")
+sys.print_list()
 print("<==================== END ======================>")
