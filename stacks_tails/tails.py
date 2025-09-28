@@ -1,4 +1,5 @@
-from .node.node_folder_file import FolderN, Folder, File
+from .node.folder import FolderN
+from templates.file import File
 
 # Tails, linked list of Folders and Files
 class DriveDirectory:
@@ -12,14 +13,31 @@ class DriveDirectory:
     
     # ====================== UTILITIES ======================
     
-    def add(self, valor: Folder | File):
-        new_node = FolderN(valor)
+    def add(self,father:str, valor: str | File):
+        if father == '':
+            new_node = FolderN("root")
+        new_node = FolderN(father)
+        if isinstance(valor, str) and self._folder_exist(self._head, valor):
+            print("ya existe este valor")
+            return
+        elif isinstance(valor, File) and self._folder_exist(self._head, valor.getName()):
+            print("ya existe este valor")
+            return
         if not self._head:
             self._head = new_node
         else:
-            self._tail.next = new_node
+            self._tail.content = new_node
         self._tail = new_node
-    
+    # pivot de encuentro de coincidencias( si ya existe devuelve True)
+    def _folder_exist(self, node: FolderN | File | None, name: str):
+        if not node:
+            return False
+        if node.getName() == name:
+            return True
+        if isinstance(node,FolderN):
+            self._folder_exist(node.content, name)
+        return False
+    #
     def get(self, name: str):
         """ get the searched value """
         if not self._head:
@@ -27,18 +45,18 @@ class DriveDirectory:
             return None
         
         # Caso 1: El valor está en el frente
-        if self._head.value.getName() == name:
+        if self._head.getName() == name:
             print(f"✅ found value.")
-            return self._head.value
+            return self._head
         
         # Caso 2: Buscar el valor en medio o final
         current = self._head.next
         
         while current:
-            if current.value.getName() == name:
+            if current.getName() == name:
                 # Encontrado, eliminar
                 print(f"✅ found value.")
-                return current.value
+                return current
             current = current.next
         
         print(f"❌ value '{name}' not found.")
@@ -51,7 +69,7 @@ class DriveDirectory:
             return False
         
         # Caso 1: El valor está en el frente
-        if self._head.value.getName() == name:
+        if self._head.getName() == name:
             self._empty_queue()
             return True
         
@@ -60,7 +78,7 @@ class DriveDirectory:
         current = self._head.next
         
         while current:
-            if current.value.getName() == name:
+            if current.getName() == name:
                 # Encontrado, eliminar
                 previus.next = current.next
                 
@@ -80,7 +98,7 @@ class DriveDirectory:
         if not self._head:
             return None
         
-        data = self._head.value
+        data = self._head
         self._head = self._head.next
         return data
     
@@ -90,6 +108,6 @@ class DriveDirectory:
     # pivot to impresion
     def _route_node_list(self, node: FolderN | None):
         if not node:
-            return
-        node.value.info()
-        self._route_node_list(node.next)
+            return None
+        node.info()
+        self._route_node_list(node.content)

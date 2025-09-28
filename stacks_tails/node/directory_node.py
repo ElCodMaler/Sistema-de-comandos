@@ -1,11 +1,11 @@
-from ..tails import DriveDirectory
+from .folder import FolderN
+from templates.file import File
 
-class NodeD: # nodo de Pilas (lista de DriveDirectorys)
+class NodeSF: # nodo de Pilas (lista de subfolders)
     """
-    + value: DriveDirectory
+    + value: FolderN or File
     + next: the next value in the linked list
     """
-    def __init__(self, name: str):
-        self.name = name
-        self.content = DriveDirectory()
-        self.next: NodeD | None = None
+    def __init__(self, value: FolderN | File):
+        self.value = value
+        self.next: NodeSF | None = None

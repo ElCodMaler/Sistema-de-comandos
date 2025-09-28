@@ -42,3 +42,10 @@ system.addContent("Carpeta4",sg)
 
 #impresion de resultados
 system.print_inorden()
+
+# get value
+res = system.get("subfolderA")
+if res:
+    res.info()
+else:
+    print("no se encontro el folder.")

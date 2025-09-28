@@ -1,4 +1,5 @@
 from datetime import datetime
+from stacks_tails.lista_folder_file import DriveContentFolder
 
 class Folder:
     '''
@@ -10,6 +11,7 @@ class Folder:
     def __init__(self, name: str):
         self._name: str = name
         self._weight: int = 0
+        self.content = DriveContentFolder()
         self._date: datetime = datetime.now()
 
     def info(self):
