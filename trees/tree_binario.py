@@ -1,11 +1,12 @@
-from .nodos.organize_node import Node_B, FolderNode, File
+from .drive_folder import FolderN, File
+from templates.nodes.node_binario import NodoB
 from typing import Union
 
 # binary tree
 class Organizer:
     """ + root: first binary node """
-    def __init__(self, directory: FolderNode):
-        self.root = Node_B(directory)
+    def __init__(self, directory: FolderN):
+        self.root: NodoB[FolderN | File] = NodoB(directory)
         self._entry_tree()
 
     # ==================== UTILITIS ====================
@@ -22,7 +23,7 @@ class Organizer:
             raise ValueError("the tree is empty")
         return self._node_counter(self.root)
 
-    def add(self, value: FolderNode | File):
+    def add(self, value: FolderN | File):
         """ add a file or folder to the binary tree """
         return self._insert_by_priorities(value)
     
@@ -37,13 +38,13 @@ class Organizer:
         for directory in children:
             self.add(directory)
     
-    def _insert_by_priorities(self, value: FolderNode | File) -> bool:
+    def _insert_by_priorities(self, value: FolderN | File) -> bool:
         """ insert keeping the order of priorities: weight → length → alphabetical """
         if not self.root:
-            self.root = Node_B(value)
+            self.root = NodoB(value)
             return True
         actual = self.root
-        nuevo_nodo = Node_B(value)
+        nuevo_nodo = NodoB(value)
         while True:
             comparacion = self._compare_entrys(value, actual.value)
             if comparacion < 0:  # folder tiene mayor prioridad
@@ -58,7 +59,7 @@ class Organizer:
                 actual = actual.right
             
 
-    def _compare_entrys(self, item1: FolderNode | File, item2: FolderNode | File) -> int:
+    def _compare_entrys(self, item1: FolderN | File, item2: FolderN | File) -> int:
         """
         Compares two values(Folder/File) based on the following priority system:
         1. Weight (largest first)
@@ -87,13 +88,13 @@ class Organizer:
                     return -1 if char1 > char2 else 1
         return 0  # They are equal in all priorities
         
-    def _node_counter(self, nodo: Node_B | None) -> int:
+    def _node_counter(self, nodo: NodoB[FolderN | File] | None) -> int:
         """ count all nodes to binary tree """
         if not nodo:
             return 0
         return 1 + self._node_counter(nodo.left) + self._node_counter(nodo.right)
     
-    def _calculate_height(self, nodo: Node_B | None) -> int:
+    def _calculate_height(self, nodo: NodoB[FolderN | File] | None) -> int:
         """ search height """
         if not nodo:
             return 0
@@ -108,7 +109,7 @@ class Organizer:
             raise ValueError("the tree is empty")
         return self._inorder_recursive(self.root)
     # in-order recursive pivot
-    def _inorder_recursive(self, nodo: Node_B | None) -> list[Union[FolderNode,File]]:
+    def _inorder_recursive(self, nodo: NodoB[FolderN | File] | None) -> list[Union[FolderN,File]]:
         if not nodo:
             return []
         return (self._inorder_recursive(nodo.left) + 
@@ -121,20 +122,20 @@ class Organizer:
             raise ValueError("the tree is empty")
         return self._preorder_recursive(self.root)
     # pre-order recursive pivot
-    def _preorder_recursive(self, nodo: Node_B | None) -> list[Union[FolderNode,File]]:
+    def _preorder_recursive(self, nodo: NodoB[FolderN | File] | None) -> list[Union[FolderN,File]]:
         if not nodo:
             return []
         return ([nodo.value] + 
                     self._preorder_recursive(nodo.left) + 
                     self._preorder_recursive(nodo.right))
     
-    def postorden(self) -> list[Union[FolderNode,File]]:
+    def postorden(self) -> list[Union[FolderN,File]]:
         """ post-order traversal: left → right → root """
         if not self.root:
             raise ValueError("the tree is empty")
         return self._postorder_recursive(self.root)
     # post-order recursive pivot
-    def _postorder_recursive(self, nodo: Node_B | None) -> list[Union[FolderNode,File]]:
+    def _postorder_recursive(self, nodo: NodoB[FolderN | File] | None) -> list[Union[FolderN,File]]:
         if not nodo:
             return []
         return (self._postorder_recursive(nodo.left) + 

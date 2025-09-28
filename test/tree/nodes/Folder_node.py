@@ -1,4 +1,4 @@
-from trees.nodos.folder_node import FolderNode
+from trees.drive_folder import FolderN
 from templates.file import File
 
 #files
@@ -7,7 +7,7 @@ a2 = File("archivo2.txt","contenido del archivo 2")
 a3 = File("archivo3.txt","contenido del archivo 3")
 a4 = File("archivo4.txt","contenido del archivo 4")
 
-folder = FolderNode('carpeta1')
+folder = FolderN('carpeta1')
 
 folder.addChild(a1)
 folder.addChild(a2)

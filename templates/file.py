@@ -5,52 +5,50 @@ from errors.file_extention import ValidacionExtencion
 #class FILE
 class File:
     '''
-    + name: nombre que identifique el objeto fichero (name.exencion_fichero)
-    + weight: el numero de peso que tiene el fichero(2 bytes por caracter)
-    + content: el contenido del fichero en especifico
-    + date: la fecha en que se crea el objeto
+    + name: name that identifies the File object
+    + ext: file extension
+    + content: information that the Archive will have
+    + weight: the weight number that the file has (8 bytes per character)
+    + date_create: the date the object is created
     '''
-    def __init__(self, name: str, content: str):
+    def __init__(self, name: str,extension: str, content: str='', weight: int=0):
         # validaciones
         ValidacionAtributos(name)
-        ValidacionExtencion(name)
+        ValidacionExtencion(extension)
         # Inicializacion de atributos
-        self._name: str = name
-        self._weight: int = 0
-        self._date: datetime = datetime.now()
-        self._content: str=''
-        self.setContent(content)
+        self._name = name
+        self._ext = extension
+        self._content = content
+        self._weight = weight if weight > 0 else len(content) * 8 #peso en bytes
+        self._date_create = datetime.now()
+        self._date_modify = datetime.now()
 
     def info(self):
         """Imprecion de la informacion de este nodo"""
-        print(f"📄 {self._name} ({self._weight} bytes) {self._date}")
+        print(f"📄 {self._name} ({self._weight} bytes) {self._date_create}")
 
     #metodos GET
     def getName(self) -> str:
-        return self._name
+        return f'{self._name}.{self._ext}'
     
-    def getCreateDate(self) -> datetime:
-        return self._date
+    def getDateCreate(self) -> datetime:
+        return self._date_create
     
     def getWeight(self) -> int:
         return self._weight
     
     def getContent(self) -> str:
         return self._content
-    #metodos SET
-    def setName(self, name: str):
-        # validaciones
-        ValidacionAtributos(name)  # Reutilizando la clase de validaciones
-        ValidacionExtencion(name)
-        # Asignacion
-        self._name = name
-        self._setDate()
-    #la diferencia de este metodo a los demas es que se actualizara la fecha de acuerdo a alguna modificacion que se
-    #realice
-    def _setDate(self):
+    
+    # function protected
+    def _set_date_modify(self):
         self._date = datetime.now()
 
-    def setContent(self, content: str):
-        self._content = content
-        self._weight = len(content) * 2
-        self._setDate()
+    def setContent(self, info: str):
+        self._content = self._content+' '+info if self._content else info
+        new_weight = len(info) * 8
+        self._weight = self._weight+new_weight if self._weight > 0 else new_weight#peso en bytes
+        self._set_date_modify()
+
+    def __str__(self) -> str:
+        return f'📄 {self.getName()} ({self._weight} bytes) {self._date_create}'

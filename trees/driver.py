@@ -26,4 +26,5 @@ class TreeDriver:
                 self._system.drive_folder.add(father,key)
                 self._save_info_doc(key,value)
             else:
-                self._system.drive_folder.add(father,File(key,value))
+                char_ls = key.split('.')
+                self._system.drive_folder.add(father,File(char_ls[0],char_ls[1],value))

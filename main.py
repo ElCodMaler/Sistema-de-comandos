@@ -1,4 +1,4 @@
-from sistema import SistemaArchivos
+from stacks_tails.sistema import SistemaArchivos
 
 def mostrar_menu() -> None:
     """Muestra el menú de opciones"""

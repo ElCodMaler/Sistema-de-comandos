@@ -1,29 +1,38 @@
 from datetime import datetime
-from stacks_tails.lista_folder_file import DriveContentFolder
+from errors.atributos import ValidacionAtributos
 
 class Folder:
-    '''
-    + name: nombre que identifique el objeto fichero (name.exencion_fichero)
-    + weight: el numero de peso que tiene el fichero(2 bytes por caracter)
-    + content: el contenido del fichero en especifico
-    + date: la fecha en que se crea el objeto
-    '''
+    """
+    + name: name that identifies the Folder object.
+    + children: linked list of folders and files.
+    + date_create: creation date of the current object.
+    + date_modify: folder modification date.
+    """
+    
     def __init__(self, name: str):
-        self._name: str = name
+        # validates
+        ValidacionAtributos(name)
+        # inits
+        self._name = name
+        self.children = None # el driver folder o lista enlazada
         self._weight: int = 0
-        self.content = DriveContentFolder()
-        self._date: datetime = datetime.now()
+        self._date_create = datetime.now()
+        self._date_modify = datetime.now()
 
-    def info(self):
-        """Imprecion de la informacion de este nodo"""
-        print(f"📁 {self._name} ({self._weight} bytes) {self._date}")
+    # ========= GETTERS ========
 
-    # --------------------- Getters --------------------
     def getName(self) -> str:
         return self._name
     
-    def getDate(self) -> datetime:
-        return self._date
-    
     def getWeight(self) -> int:
         return self._weight
+    
+    def getDateCreate(self) -> datetime:
+        return self._date_create
+    
+    def update_modify(self):
+        """Actualiza la fecha de modificación"""
+        self.fecha_modificacion = datetime.now()
+    
+    def __str__(self) -> str:
+        return f"📁 {self._name} ({self._weight} bytes) {self._date_create}"

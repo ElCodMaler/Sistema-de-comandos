@@ -1,6 +1,7 @@
-from .nodos.folder_node import FolderNode, File
+from .drive_folder import FolderN, File
 from .tree_n_ario import DriveDirectory
 from .tree_binario import Organizer
+from errors.commands import ValidacionCommand
 
 class Command:
     """
@@ -9,36 +10,32 @@ class Command:
     """
     def __init__(self, driver: DriveDirectory):
         self._driver = driver
-        self.current: FolderNode | File = self._driver.root
+        self.current: FolderN | File = self._driver.root
         self.browse: str = self.current.getName()+'/'
+        self._execute_command: dict[str, any] = {
+            'asc': self._asc,
+            'desc': self._desc,
+            'dir': self._dir,
+            'ls': self._ls,
+            'exit': exit,
+            'help': self._help,
+            'cd': self._cd,
+            'mkdir': self._mkdir,
+            'rmdir': self._rmdir
+        }
 
     def validation(self, command: str) -> bool:
         """ Validacion del comando ingresado """
-        cm = command.split(' ')
-        if len(cm) == 1:
-            if 'asc' == cm[0]:
-                return self._asc()
-            elif 'desc' == cm[0]:
-                return self._desc()
-            elif 'dir' == cm[0]:
-                return self._dir()
-            elif 'ls' == cm[0]:
-                return self._ls()
-            elif 'exit' == cm[0]:
-                return exit()
-            elif 'help' == cm[0]:
-                return self._help()
-        elif len(cm) == 2 and 'cd' == cm[0]:
-            res = self._cd(cm[1])
-            if not res:
-                print("directory not found.")
-            return res
-        elif len(cm) >= 2:
-            if 'mkdir' == cm[0]:
-                return self._mkdir(cm[1])
-            elif 'rmdir' == cm[0]:
-                return self._rmdir(cm[1])
-        return False
+        res = ValidacionCommand(command)
+        cm = res.command
+        if not cm:
+            print('no se reconoce este comando')
+            return False
+        if res.entry:
+            self._execute_command[cm](res.entry)
+            return True
+        self._execute_command[cm]()
+        return True
 
     # ====================== PROTECTED FUNCTIONS ======================
     def _cd(self, name: str) -> bool:
@@ -61,7 +58,7 @@ class Command:
                 self.current = res
                 return True
             return False
-        if not isinstance(self.current,FolderNode):
+        if not isinstance(self.current,FolderN):
             return False
         for d in self.current.children:
             directory_ls.append(d.getName())
@@ -79,10 +76,10 @@ class Command:
                 return True
         return False
     # ================= PIVOT DIR ==================
-    def _eval_grado(self, directory: FolderNode | File, directorys: list[str]) -> FolderNode | File | None:
+    def _eval_grado(self, directory: FolderN | File, directorys: list[str]) -> FolderN | File | None:
         """ pivot to recognize the scale of directories """
         child_list: list[str] = []
-        if isinstance(directory, FolderNode):
+        if isinstance(directory, FolderN):
             children = directory.children
             for c in children:
                 child_list.append(c.getName())
@@ -102,7 +99,7 @@ class Command:
             print("you are at the root of the system")
             return None
         res = self._driver.get(directory_ls[-3])
-        if isinstance(res, FolderNode):
+        if isinstance(res, FolderN):
             directory_ls.pop()
             directory_ls.pop()
             self.browse = '/'.join(directory_ls) +'/'
@@ -112,7 +109,7 @@ class Command:
 
     def _asc(self) -> bool:
         """ ascending impression of folders and files """
-        if isinstance(self.current, FolderNode):
+        if isinstance(self.current, FolderN):
             res = Organizer(self.current)
             res.print_info_preorder()
             return True
@@ -120,7 +117,7 @@ class Command:
 
     def _desc(self):
         """ printing folders and files in descending order """
-        if isinstance(self.current, FolderNode):
+        if isinstance(self.current, FolderN):
             res = Organizer(self.current)
             res.print_info_postorder()
             return True
@@ -128,7 +125,7 @@ class Command:
 
     def _dir(self):
         """ display the contents of the folder """
-        if isinstance(self.current, FolderNode):
+        if isinstance(self.current, FolderN):
             res = Organizer(self.current)
             res.print_list()
             return True
@@ -150,7 +147,7 @@ class Command:
     
     def _ls(self):
         """ detailed list of subfolders (ls) """
-        if isinstance(self.current, FolderNode):
+        if isinstance(self.current, FolderN):
             res = Organizer(self.current)
             res.print_info_preorder()
             return True

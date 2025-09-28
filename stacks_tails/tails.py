@@ -1,4 +1,4 @@
-from .node.folder import FolderN
+from .nodes import FolderN
 from templates.file import File
 
 # Tails, linked list of Folders and Files
