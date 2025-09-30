@@ -32,11 +32,11 @@ class Stack(Generic[T]):
         self.size -= 1
         return dato
     
-    def see_top(self) -> Optional[T]:
+    def getTop(self) -> Optional[Node[T]]:
         """Retorna el elemento de la cima sin removerlo"""
         if self.is_empty():
             return None
-        return self._top.value
+        return self._top
     
     def __len__(self) -> int:
         return self.size

@@ -17,4 +17,9 @@ class ValidacionCommand:
             elif len(cm) >= 2 and key in cm:
                 cm.pop(0)
                 self.command= key
-                self.entry = cm
+                if len(cm) == 1:
+                    self.entry = cm[0]
+                else:
+                    self.entry = cm
+        if not self.command:
+            print("Comando no reconocido")

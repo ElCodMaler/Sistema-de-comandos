@@ -24,18 +24,16 @@ class Command:
             'rmdir': self._rmdir
         }
 
-    def validation(self, command: str) -> bool:
+    def validation(self, command: str):
         """ Validacion del comando ingresado """
         res = ValidacionCommand(command)
         cm = res.command
-        if not cm:
-            print('no se reconoce este comando')
-            return False
-        if res.entry:
-            self._execute_command[cm](res.entry)
-            return True
-        self._execute_command[cm]()
-        return True
+        if cm:
+            if res.entry:
+                self._execute_command[cm](res.entry)
+                return
+            self._execute_command[cm]()
+            return
 
     # ====================== PROTECTED FUNCTIONS ======================
     def _cd(self, name: str) -> bool:

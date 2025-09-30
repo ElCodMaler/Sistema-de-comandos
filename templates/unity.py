@@ -1,4 +1,5 @@
-from trees.tree_n_ario import DriveDirectory
+from trees.tree_n_ario import DriveDirectory as drive_tree
+from stacks_tails.drivers.drive_directory import DriveDirectory as drive_stack_tail
 #clase UNITY
 class Unity:
     '''
@@ -11,7 +12,7 @@ class Unity:
     def __init__(self, name:str="C:", storage:int= 600):
         self._name = name
         self._storage = storage
-        self.drive_folder = DriveDirectory(name)
+        self.drive_folder: drive_tree | drive_stack_tail
         self._weight = 0
         self._gap = self._storage - self._weight
     # post init

@@ -5,6 +5,7 @@ class Folder:
     """
     + name: name that identifies the Folder object.
     + children: linked list of folders and files.
+    + weight: the weight that the contents of the folder represent.
     + date_create: creation date of the current object.
     + date_modify: folder modification date.
     """
@@ -27,12 +28,9 @@ class Folder:
     def getWeight(self) -> int:
         return self._weight
     
-    def getDateCreate(self) -> datetime:
-        return self._date_create
-    
     def update_modify(self):
         """Actualiza la fecha de modificación"""
-        self.fecha_modificacion = datetime.now()
+        self._date_modify = datetime.now()
     
     def __str__(self) -> str:
         return f"📁 {self._name} ({self._weight} bytes) {self._date_create}"
