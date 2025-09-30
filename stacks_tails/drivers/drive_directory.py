@@ -25,6 +25,7 @@ class DriveDirectory:
         """Crea una nueva carpeta en el directorio actual"""
         carpeta: FolderN = FolderN(name)
         self._current_directory.addChild(carpeta)
+        print(f"Carpeta '{carpeta.getName()}' creado exitosamente")
     
     def print_info(self) -> None:
         """Lista el contenido del directorio actual"""

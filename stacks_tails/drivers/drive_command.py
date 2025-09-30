@@ -1,14 +1,14 @@
 from .drive_directory import DriveDirectory
 from errors.commands import ValidacionCommand
-#from templates.unity import Unity
+from templates.unity import Unity
 
 class DriverCommand:
     """
      + current: the current directory or File.
      + browse: representation of navigation.
     """
-    def __init__(self, driver: DriveDirectory):
-        self._driver = driver
+    def __init__(self, unity: Unity[DriveDirectory]):
+        self._unity = unity
         self._execute_command: dict[str, any] = {
             'dir': self._dir,
             'ls': self._ls,
@@ -31,16 +31,16 @@ class DriverCommand:
             return
 
     def route(self) -> str:
-        return self._driver.show_current_route()
+        return self._unity.drive_folder.show_current_route()
 
     # ====================== PROTECTED FUNCTIONS ======================
     def _cd(self, name: str):
         """ directory navigation """
-        self._driver.change_directory(name)
+        self._unity.drive_folder.change_directory(name)
 
     def _dir(self):
         """ display the contents of the folder """
-        self._driver.print_list()
+        self._unity.drive_folder.print_list()
 
     def _help(self):
         """ show available commands """
@@ -55,10 +55,10 @@ class DriverCommand:
     
     def _ls(self):
         """ detailed list of subfolders (ls) """
-        self._driver.print_info()
+        self._unity.drive_folder.print_info()
 
     def _mkdir(self, folder_name:str):
-        self._driver.createFolder(folder_name)
+        self._unity.drive_folder.createFolder(folder_name)
 
     def _rmdir(self, folder_name:str):
-        self._driver.deleteElement(folder_name)
+        self._unity.drive_folder.deleteElement(folder_name)

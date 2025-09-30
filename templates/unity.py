@@ -1,7 +1,9 @@
-from trees.tree_n_ario import DriveDirectory as drive_tree
-from stacks_tails.drivers.drive_directory import DriveDirectory as drive_stack_tail
+from typing import TypeVar, Generic
+
+T = TypeVar('T')
+
 #clase UNITY
-class Unity:
+class Unity(Generic[T]):
     '''
     + name: nombre que identifique el objeto Unidad
     + storage: es la capacidad de espacio que puede almacenar el disco.
@@ -12,13 +14,9 @@ class Unity:
     def __init__(self, name:str="C:", storage:int= 600):
         self._name = name
         self._storage = storage
-        self.drive_folder: drive_tree | drive_stack_tail
+        self.drive_folder: T
         self._weight = 0
         self._gap = self._storage - self._weight
-    # post init
-    def __post_init__(self):
-        """Calcula el tamaño total al crear el nodo"""
-        self._weight = self.drive_folder.root.getWeight()
         
     #metodos GET
     def getName(self) -> str:
@@ -40,3 +38,6 @@ class Unity:
     def setWeight(self, value: int):
         self._weight += value
         self._gap = self._storage - self._weight
+
+    def setDriverSystem(self, value: T):
+        self.drive_folder = value
