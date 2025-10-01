@@ -1,10 +1,9 @@
 from datetime import datetime
 from errors.atributs import ValidacionAtributos
 
-class Folder:
+class FolderTemplate:
     """
     + name: name that identifies the Folder object.
-    + children: linked list of folders and files.
     + weight: the weight that the contents of the folder represent.
     + date_create: creation date of the current object.
     + date_modify: folder modification date.
@@ -15,7 +14,7 @@ class Folder:
         ValidacionAtributos(name)
         # inits
         self._name = name
-        self.children = None # el driver folder o lista enlazada
+        #self.children: T # el driver folder o lista enlazada
         self._weight: int = 0
         self._date_create = datetime.now()
         self._date_modify = datetime.now()

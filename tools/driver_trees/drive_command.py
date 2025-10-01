@@ -1,7 +1,7 @@
 from errors.commands import ValidacionCommand
 from templates.unity import Unity
-from .tree_n_ario import DriveDirectory
-from .tree_binario import Organizer
+from .tree_nary import DriveDirectory
+from .tree_binary import Organizer
 
 class DriverCommand:
     """
@@ -46,12 +46,12 @@ class DriverCommand:
 
     def _asc(self):
         """ ascending impression of folders and files """
-        res = Organizer(self._unity.drive_folder.current_directory)
+        res = Organizer(self._unity.drive_folder.getCurrentDirectory())
         res.print_info_preorder()
 
     def _desc(self):
         """ printing folders and files in descending order """
-        res = Organizer(self._unity.drive_folder.current_directory)
+        res = Organizer(self._unity.drive_folder.getCurrentDirectory())
         res.print_info_postorder()
 
     def _dir(self):

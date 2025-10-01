@@ -14,6 +14,9 @@ class DriveDirectory:
 
     # ===================== UTILITIES ======================
 
+    def getCurrentDirectory(self):
+        return self._current_directory
+
     def createFile(self, name:str, content: str = "") -> None:
         """ Creates a new file in the current directory """
         eval_name = name.split('.')

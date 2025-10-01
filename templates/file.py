@@ -1,5 +1,5 @@
 from datetime import datetime
-from errors.atributos import ValidacionAtributos
+from errors.atributs import ValidacionAtributos
 from errors.file_extention import ValidacionExtencion
 
 #class FILE
