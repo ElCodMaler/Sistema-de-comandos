@@ -29,7 +29,7 @@ class Tail(Generic[T]):
     
     def remove(self) -> T:
         if self.is_empty():
-            print("La cola ya esta vacia")
+            print("The Tail is already empty.")
         nodo: T = self._head.value
         self._head = self._head.next
         self._size -= 1
@@ -46,7 +46,7 @@ class Tail(Generic[T]):
     
     def __str__(self) -> str:
         if self.is_empty():
-            return "Cola vacía"
+            return "Empty tail."
         
         elements: list[str] = []
         current: Optional[Node[T]] = self._head

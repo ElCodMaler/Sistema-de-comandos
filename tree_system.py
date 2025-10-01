@@ -2,7 +2,7 @@ from tools import save
 from tools.driver_trees.drive_command import DriverCommand, DriveDirectory, Unity
 
 class CommandSystem:
-    """ class that handles system operations """
+    """ The command system """
     def __init__(self, unity: str='C', storage: int=2000):
         db_file = save.trasnform_json_dict(unity)
         # generamos el sistema

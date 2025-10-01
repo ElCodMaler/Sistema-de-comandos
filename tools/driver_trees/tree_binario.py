@@ -1,8 +1,8 @@
 from .drive_folder import FolderN, File
-from templates.nodes.node_binario import NodeB
+from templates.nodes.node_binary import NodeB
 from typing import Union
 
-# binary tree
+# BINARY TREE
 class Organizer:
     """ + root: first binary node """
     def __init__(self, directory: FolderN):

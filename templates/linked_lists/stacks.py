@@ -33,7 +33,7 @@ class Stack(Generic[T]):
         return dato
     
     def getTop(self) -> Optional[Node[T]]:
-        """Retorna el elemento de la cima sin removerlo"""
+        """ Returns the top element without removing it """
         if self.is_empty():
             return None
         return self._top
@@ -43,7 +43,7 @@ class Stack(Generic[T]):
     
     def __str__(self) -> str:
         if not self._top:
-            return "Pila vacía"
+            return "Empty Stack."
         
         elements: list[str] = []
         current: Optional[Node[T]] = self._top

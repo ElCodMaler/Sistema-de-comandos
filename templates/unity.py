@@ -32,9 +32,6 @@ class Unity(Generic[T]):
         return self._weight
     
     #metodos SET
-    def setName(self, name: str):
-        self._name = name
-
     def setWeight(self, value: int):
         self._weight += value
         self._gap = self._storage - self._weight

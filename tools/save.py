@@ -7,4 +7,4 @@ def trasnform_json_dict(value: str) -> dict[str,any]:
         fileDB = "C"
     with open(f'db/{fileDB}.json', 'r', encoding='utf-8') as archivo:
         return json.load(archivo)
-    raise ValueError("no se encontro tu archivo DB")
+    raise ValueError("Your DB file was not found.")

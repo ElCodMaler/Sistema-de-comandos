@@ -20,5 +20,6 @@ elif STRUCTURE == 'linked' and not sys:
 else:
     raise ValueError("no se puede continuar con el proyecto sin una estructura definida... " \
     "\n vaya al archivo .env")
+
 # STARS COMMAND SYSTEM
 sys.start()

@@ -5,11 +5,11 @@ from .tree_binario import Organizer
 
 class DriverCommand:
     """
-     + current: the current directory or File.
-     + browse: representation of navigation.
+     + unity: root command system Unity
+     + run_command: dictionary of command functions
     """
     def __init__(self, unity: Unity[DriveDirectory]):
-        self.unity = unity
+        self._unity = unity
         self._execute_command: dict[str, any] = {
             'asc': self._asc,
             'desc': self._desc,
@@ -35,27 +35,28 @@ class DriverCommand:
             return
         
     def route(self) -> str:
-        return self.unity.drive_folder.getRoute()
+        """ current directory path """
+        return self._unity.drive_folder.getRoute()
 
     # ====================== PROTECTED FUNCTIONS ======================
 
     def _cd(self, name: str):
         """ directory navigation """
-        self.unity.drive_folder.change_directory(name)
+        self._unity.drive_folder.change_directory(name)
 
     def _asc(self):
         """ ascending impression of folders and files """
-        res = Organizer(self.unity.drive_folder.current_directory)
+        res = Organizer(self._unity.drive_folder.current_directory)
         res.print_info_preorder()
 
     def _desc(self):
         """ printing folders and files in descending order """
-        res = Organizer(self.unity.drive_folder.current_directory)
+        res = Organizer(self._unity.drive_folder.current_directory)
         res.print_info_postorder()
 
     def _dir(self):
         """ display the contents of the folder """
-        self.unity.drive_folder.print_list()
+        self._unity.drive_folder.print_list()
 
     def _help(self):
         """ show available commands """
@@ -72,10 +73,16 @@ class DriverCommand:
     
     def _ls(self):
         """ detailed list of subfolders (ls) """
-        self.unity.drive_folder.print_info()
+        self._unity.drive_folder.print_info()
 
     def _mkdir(self, new_folder:str):
-        self.unity.drive_folder.createFolder(new_folder)
+        """ create a folder """
+        self._unity.drive_folder.createFolder(new_folder)
 
     def _rmdir(self, delete_folder: str):
-        self.unity.drive_folder.deleteElement(delete_folder)
+        """ delete a folder """
+        self._unity.drive_folder.deleteElement(delete_folder)
+
+    def _type(self): # ENCODING ....
+        """ show file content """
+        pass

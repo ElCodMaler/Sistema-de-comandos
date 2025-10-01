@@ -1,36 +1,37 @@
-from .drive_directory import DriveDirectory
+from .drive_directory import DriveDirectory, File
 from errors.commands import ValidacionCommand
 from templates.unity import Unity
 
 class DriverCommand:
     """
-     + current: the current directory or File.
-     + browse: representation of navigation.
+     + unity: root command system Unity
+     + run_command: dictionary of command functions
     """
     def __init__(self, unity: Unity[DriveDirectory]):
         self._unity = unity
-        self._execute_command: dict[str, any] = {
+        self._run_command: dict[str, any] = {
             'dir': self._dir,
             'ls': self._ls,
             'exit': exit,
             'help': self._help,
             'cd': self._cd,
             'mkdir': self._mkdir,
-            'rmdir': self._rmdir
+            'rmdir': self._rmdir,
+            'type': self._type
         }
 
     def validation(self, command: str):
-        """ Validacion del comando ingresado """
+        """ Validation of the entered command """
         res = ValidacionCommand(command)
         cm = res.command
         if cm:
             if res.entry:
-                self._execute_command[cm](res.entry)
+                self._run_command[cm](res.entry)
                 return
-            self._execute_command[cm]()
-            return
+            self._run_command[cm]()
 
     def route(self) -> str:
+        """ current directory path """
         return self._unity.drive_folder.show_current_route()
 
     # ====================== PROTECTED FUNCTIONS ======================
@@ -58,7 +59,17 @@ class DriverCommand:
         self._unity.drive_folder.print_info()
 
     def _mkdir(self, folder_name:str):
+        """ create a folder """
         self._unity.drive_folder.createFolder(folder_name)
 
     def _rmdir(self, folder_name:str):
+        """ delete a folder """
         self._unity.drive_folder.deleteElement(folder_name)
+
+    def _type(self, file_name: str):# ENCODING ...
+        """ show file content """
+        res = self._unity.drive_folder.getElement(file_name)
+        if isinstance(res, File):
+            print(res.getContent())
+        if res:
+            print('This command only works for files')

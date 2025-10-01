@@ -4,7 +4,7 @@ class ValidacionCommand:
         self.entry: str | list[str] | None = None
         cm = name.split(' ')
         l1 = ['asc','ls','desc','dir','exit','help']
-        l2 = ['mkdir','rmdir','cd']
+        l2 = ['mkdir','rmdir','cd','type']
         # evaluamos los comandos que requieren un solo campo
         for key in l1:
             if len(cm) == 1 and key in cm:

@@ -23,10 +23,6 @@ class File:
         self._date_create = datetime.now()
         self._date_modify = datetime.now()
 
-    def info(self):
-        """Imprecion de la informacion de este nodo"""
-        print(f"📄 {self._name} ({self._weight} bytes) {self._date_create}")
-
     #metodos GET
     def getName(self) -> str:
         return f'{self._name}.{self._ext}'
