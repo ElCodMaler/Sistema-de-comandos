@@ -1,5 +1,7 @@
+import os
+from dotenv import load_dotenv
 from tools import save
-from tools.driver_linked_lists.drive_command import DriverCommand, DriveDirectory, Unity
+from tools.drivers.drive_command import DriverCommand, DriveDirectory, Unity
 
 class CommandSystem:
     """ The command system """
@@ -15,6 +17,11 @@ class CommandSystem:
     # ================== UTILS ===============
     def start(self):
         """ System startup """
+        STRUCTURE = os.getenv('STRUCTURE')
+        if STRUCTURE == 'linked':
+            self.title_linked_list()
+        elif STRUCTURE == 'tree':
+            self.title_trees()
         while True:
             entry = input(f"\n{self._commands.route()}")
             self._commands.validation(entry)
@@ -33,3 +40,13 @@ class CommandSystem:
             self._system.drive_folder.change_directory(key)
             self._save_to_system(value)
         self._system.drive_folder.change_directory('..')
+
+    def title_linked_list(self):
+        print('='*60)
+        print(' '*5+'WELCOME TO COMMAND SYSTEM OF LINKED LISTS')
+        print('='*60)
+
+    def title_trees(self):
+        print('='*60)
+        print(' '*5+'WELCOME TO COMMAND SYSTEM OF TREES')
+        print('='*60)

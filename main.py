@@ -1,25 +1,16 @@
 import os
 from dotenv import load_dotenv
+from system import CommandSystem
 
 # Cargar variables del archivo .env
 load_dotenv()
-
 # Acceder a las variables
-STRUCTURE = os.getenv('STRUCTURE')
 UNITY = os.getenv('UNITY')
-
-# init
-sys = None
-
-if STRUCTURE == 'tree':
-    import tree_system
-    sys = tree_system.CommandSystem()
-elif STRUCTURE == 'linked' and not sys:
-    import linked_list_system
-    sys = linked_list_system.CommandSystem()
+STORAGE = os.getenv('STORAGE')
+# asignar la unidad disponible con su peso asignado
+if UNITY and STORAGE:
+    sys = CommandSystem(UNITY,int(STORAGE))
 else:
-    raise ValueError("no se puede continuar con el proyecto sin una estructura definida... " \
-    "\n vaya al archivo .env")
-
-# STARS COMMAND SYSTEM
+    sys = CommandSystem()
+# INICIO DEL PROGRAMA
 sys.start()

@@ -4,18 +4,15 @@ from errors.atributs import ValidacionAtributos
 class Folder:
     """
     + name: name that identifies the Folder object.
-    + children: linked list of folders and files.
     + weight: the weight that the contents of the folder represent.
     + date_create: creation date of the current object.
     + date_modify: folder modification date.
     """
-    
     def __init__(self, name: str):
         # validates
         ValidacionAtributos(name)
         # inits
         self._name = name
-        self.children = None # el driver folder o lista enlazada
         self._weight: int = 0
         self._date_create = datetime.now()
         self._date_modify = datetime.now()

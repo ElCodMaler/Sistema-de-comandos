@@ -1,12 +1,13 @@
-from .drive_folder import FolderN, File
+from .drive_folder import Folder
+from templates.file import File
 from templates.nodes.node_binary import NodeB
 from typing import Union
 
 # BINARY TREE
 class Organizer:
     """ + root: first binary node """
-    def __init__(self, directory: FolderN):
-        self.root: NodeB[FolderN | File] = NodeB(directory)
+    def __init__(self, directory: Folder):
+        self.root: NodeB[Folder | File] = NodeB(directory)
         self._entry_tree()
 
     # ==================== UTILITIS ====================
@@ -23,7 +24,7 @@ class Organizer:
             raise ValueError("the tree is empty")
         return self._node_counter(self.root)
 
-    def add(self, value: FolderN | File):
+    def add(self, value: Folder | File):
         """ add a file or folder to the binary tree """
         return self._insert_by_priorities(value)
     
@@ -38,7 +39,7 @@ class Organizer:
         for directory in children:
             self.add(directory)
     
-    def _insert_by_priorities(self, value: FolderN | File) -> bool:
+    def _insert_by_priorities(self, value: Folder | File) -> bool:
         """ insert keeping the order of priorities: weight → length → alphabetical """
         if not self.root:
             self.root = NodeB(value)
@@ -58,7 +59,7 @@ class Organizer:
                     return True
                 actual = actual.right
             
-    def _compare_entrys(self, item1: FolderN | File, item2: FolderN | File) -> int:
+    def _compare_entrys(self, item1: Folder | File, item2: Folder | File) -> int:
         """
         Compares two values(Folder/File) based on the following priority system:
         1. Weight (largest first)
@@ -87,13 +88,13 @@ class Organizer:
                     return -1 if char1 > char2 else 1
         return 0  # They are equal in all priorities
         
-    def _node_counter(self, nodo: NodeB[FolderN | File] | None) -> int:
+    def _node_counter(self, nodo: NodeB[Folder | File] | None) -> int:
         """ count all nodes to binary tree """
         if not nodo:
             return 0
         return 1 + self._node_counter(nodo.left) + self._node_counter(nodo.right)
     
-    def _calculate_height(self, nodo: NodeB[FolderN | File] | None) -> int:
+    def _calculate_height(self, nodo: NodeB[Folder | File] | None) -> int:
         """ search height """
         if not nodo:
             return 0
@@ -108,7 +109,7 @@ class Organizer:
             raise ValueError("the tree is empty")
         return self._inorder_recursive(self.root)
     # in-order recursive pivot
-    def _inorder_recursive(self, nodo: NodeB[FolderN | File] | None) -> list[Union[FolderN,File]]:
+    def _inorder_recursive(self, nodo: NodeB[Folder | File] | None) -> list[Union[Folder,File]]:
         if not nodo:
             return []
         return (self._inorder_recursive(nodo.left) + 
@@ -121,20 +122,20 @@ class Organizer:
             raise ValueError("the tree is empty")
         return self._preorder_recursive(self.root)
     # pre-order recursive pivot
-    def _preorder_recursive(self, nodo: NodeB[FolderN | File] | None) -> list[Union[FolderN,File]]:
+    def _preorder_recursive(self, nodo: NodeB[Folder | File] | None) -> list[Union[Folder,File]]:
         if not nodo:
             return []
         return ([nodo.value] + 
                     self._preorder_recursive(nodo.left) + 
                     self._preorder_recursive(nodo.right))
     
-    def postorden(self) -> list[Union[FolderN,File]]:
+    def postorden(self) -> list[Union[Folder,File]]:
         """ post-order traversal: left → right → root """
         if not self.root:
             raise ValueError("the tree is empty")
         return self._postorder_recursive(self.root)
     # post-order recursive pivot
-    def _postorder_recursive(self, nodo: NodeB[FolderN | File] | None) -> list[Union[FolderN,File]]:
+    def _postorder_recursive(self, nodo: NodeB[Folder | File] | None) -> list[Union[Folder,File]]:
         if not nodo:
             return []
         return (self._postorder_recursive(nodo.left) + 

@@ -1,7 +1,7 @@
 from typing import Union, Optional
 from templates.linked_lists.tails import Tail
 from templates.file import File
-from .template_folder import FolderTemplate
+from templates.folder import Folder as FolderTemplate
 
 class Folder(FolderTemplate):
     """

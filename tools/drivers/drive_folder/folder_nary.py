@@ -1,6 +1,6 @@
 from typing import Union, Optional
 from templates.file import File
-from .template_folder import FolderTemplate
+from templates.folder import Folder as FolderTemplate
 
 class Folder(FolderTemplate):
     """

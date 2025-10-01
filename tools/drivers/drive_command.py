@@ -1,7 +1,6 @@
+from .drive_directory import DriveDirectory, File
 from errors.commands import ValidacionCommand
 from templates.unity import Unity
-from .tree_nary import DriveDirectory
-from .tree_binary import Organizer
 
 class DriverCommand:
     """
@@ -10,49 +9,37 @@ class DriverCommand:
     """
     def __init__(self, unity: Unity[DriveDirectory]):
         self._unity = unity
-        self._execute_command: dict[str, any] = {
-            'asc': self._asc,
-            'desc': self._desc,
+        self._run_command: dict[str, any] = {
+            'asc': None,
+            'desc': None,
             'dir': self._dir,
             'ls': self._ls,
             'exit': exit,
             'help': self._help,
             'cd': self._cd,
             'mkdir': self._mkdir,
-            'rmdir': self._rmdir
+            'rmdir': self._rmdir,
+            'type': self._type
         }
-    # ============== UTILITIES =============
 
     def validation(self, command: str):
-        """ Validacion del comando ingresado """
+        """ Validation of the entered command """
         res = ValidacionCommand(command)
         cm = res.command
         if cm:
             if res.entry:
-                self._execute_command[cm](res.entry)
+                self._run_command[cm](res.entry)
                 return
-            self._execute_command[cm]()
-            return
-        
+            self._run_command[cm]()
+
     def route(self) -> str:
         """ current directory path """
-        return self._unity.drive_folder.getRoute()
+        return self._unity.drive_folder.show_current_route()
 
     # ====================== PROTECTED FUNCTIONS ======================
-
     def _cd(self, name: str):
         """ directory navigation """
         self._unity.drive_folder.change_directory(name)
-
-    def _asc(self):
-        """ ascending impression of folders and files """
-        res = Organizer(self._unity.drive_folder.getCurrentDirectory())
-        res.print_info_preorder()
-
-    def _desc(self):
-        """ printing folders and files in descending order """
-        res = Organizer(self._unity.drive_folder.getCurrentDirectory())
-        res.print_info_postorder()
 
     def _dir(self):
         """ display the contents of the folder """
@@ -60,8 +47,6 @@ class DriverCommand:
 
     def _help(self):
         """ show available commands """
-        print("asc | ascending impression of folders and files")
-        print("desc | printing folders and files in descending order")
         print("dir | display the contents of the folder")
         print("ls | detailed list of subfolders")
         print("exit | close the program")
@@ -75,14 +60,18 @@ class DriverCommand:
         """ detailed list of subfolders (ls) """
         self._unity.drive_folder.print_info()
 
-    def _mkdir(self, new_folder:str):
+    def _mkdir(self, folder_name:str):
         """ create a folder """
-        self._unity.drive_folder.createFolder(new_folder)
+        self._unity.drive_folder.createFolder(folder_name)
 
-    def _rmdir(self, delete_folder: str):
+    def _rmdir(self, folder_name:str):
         """ delete a folder """
-        self._unity.drive_folder.deleteElement(delete_folder)
+        self._unity.drive_folder.deleteElement(folder_name)
 
-    def _type(self): # ENCODING ....
+    def _type(self, file_name: str):# ENCODING ...
         """ show file content """
-        pass
+        res = self._unity.drive_folder.getElement(file_name)
+        if isinstance(res, File):
+            print(res.getContent())
+        if res:
+            print('This command only works for files')
