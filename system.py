@@ -42,11 +42,11 @@ class CommandSystem:
         self._system.drive_folder.change_directory('..')
 
     def title_linked_list(self):
-        print('='*60)
+        print('='*50)
         print(' '*5+'WELCOME TO COMMAND SYSTEM OF LINKED LISTS')
-        print('='*60)
+        print('='*50)
 
     def title_trees(self):
-        print('='*60)
+        print('='*50)
         print(' '*5+'WELCOME TO COMMAND SYSTEM OF TREES')
-        print('='*60)
+        print('='*50)

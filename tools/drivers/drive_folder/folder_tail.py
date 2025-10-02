@@ -18,7 +18,7 @@ class Folder(FolderTemplate):
     # ======================= UTILITIES =======================
     
     def addChild(self, son: Union['Folder', File]):
-        """ add a FolderN or File to this node's list """
+        """ add a Folder or File to this node's list """
         self.children.add(son)
         self._weight += son.getWeight()
 
@@ -44,24 +44,23 @@ class Folder(FolderTemplate):
         """ Get File or Folder from the node list """
         if self.children.is_empty():
             return
-        for child in self._get_list_children():
+        for child in self.get_list_children():
             if child.getName() == name:
                 return child
         print(f"file or folder {name} not found.")
             
     def print_list_chidren(self):
-        """ console output of the names of the FolderN and files found on this node """
-        for child in self._get_list_children():
+        """ console output of the names of the Folder and files found on this node """
+        for child in self.get_list_children():
             print(child.getName(),end=' ')
 
     def print_info_children(self):
-        """ console output of detailed information about the FolderN and Files found on this node """
-        for child in self._get_list_children():
+        """ console output of detailed information about the Folder and Files found on this node """
+        for child in self.get_list_children():
             print(str(child))
 
-    # =========== PROTECTED FUNCTIONS ==========
-    def _get_list_children(self) -> list[Union['File', 'Folder']]:
-        """ list of FolderN and Files """
+    def get_list_children(self) -> list[Union['File', 'Folder']]:
+        """ list of Folder and Files """
         # inicializar variables
         tail_temp: Tail[Union[File, Folder]] = Tail()
         children_ls: list[Union['File', 'Folder']] = []
@@ -74,6 +73,8 @@ class Folder(FolderTemplate):
         while not tail_temp.is_empty():
             self.children.add(tail_temp.remove())
         return children_ls
+    
+    # =========== PROTECTED FUNCTIONS ==========
     
     def _existing_element(self, name: str) -> bool:
         """ evaluates whether this element exists in the linked list of Tails """

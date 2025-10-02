@@ -10,8 +10,8 @@ class DriverCommand:
     def __init__(self, unity: Unity[DriveDirectory]):
         self._unity = unity
         self._run_command: dict[str, any] = {
-            'asc': None,
-            'desc': None,
+            'asc': self._asc,
+            'desc': self._desc,
             'dir': self._dir,
             'ls': self._ls,
             'exit': exit,
@@ -37,9 +37,15 @@ class DriverCommand:
         return self._unity.drive_folder.show_current_route()
 
     # ====================== PROTECTED FUNCTIONS ======================
-    def _cd(self, name: str):
+    def _asc(self):
+        self._unity.drive_folder.print_asc()
+
+    def _desc(self):
+        self._unity.drive_folder.print_desc()
+
+    def _cd(self, name_directory: str):
         """ directory navigation """
-        self._unity.drive_folder.change_directory(name)
+        self._unity.drive_folder.change_directory(name_directory)
 
     def _dir(self):
         """ display the contents of the folder """
@@ -60,12 +66,17 @@ class DriverCommand:
         """ detailed list of subfolders (ls) """
         self._unity.drive_folder.print_info()
 
-    def _mkdir(self, folder_name:str):
+    def _mkdir(self, folder_name:str | list[str]):
         """ create a folder """
+        if isinstance(folder_name, list):
+            self._unity.drive_folder.create_multiple_folders(folder_name)
+            return
         self._unity.drive_folder.createFolder(folder_name)
 
-    def _rmdir(self, folder_name:str):
+    def _rmdir(self, folder_name:str | list[str]):
         """ delete a folder """
+        if isinstance(folder_name, list):
+            self._unity.drive_folder.delete_multiple_folders(folder_name)
         self._unity.drive_folder.deleteElement(folder_name)
 
     def _type(self, file_name: str):# ENCODING ...

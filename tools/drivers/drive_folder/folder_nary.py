@@ -42,9 +42,13 @@ class Folder(FolderTemplate):
     def print_list_chidren(self):
         """ console output of the names of the FolderN and files found on this node """
         for son in self.children:
-            print(son.getName())
+            print(son.getName(), end=' ')
 
     def print_info_children(self):
         """ console output of detailed information about the FolderN and Files found on this node """
         for son in self.children:
             print(str(son))
+
+    def get_list_children(self) -> list[Union['File', 'Folder']]:
+        """ list of Folder and Files """
+        return self.children

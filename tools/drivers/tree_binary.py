@@ -32,11 +32,11 @@ class Organizer:
 
     def _entry_tree(self):
         """ insert the entire contents of the folder into the binary tree """
-        children = self.root.value.children if not isinstance(self.root.value, File) else None
-        if not children:
+        children_list: list[Folder | File] = self.root.value.get_list_children()
+        if not children_list:
             print("There is no content in this folder.")
             return
-        for directory in children:
+        for directory in children_list:
             self.add(directory)
     
     def _insert_by_priorities(self, value: Folder | File) -> bool:
@@ -150,7 +150,7 @@ class Organizer:
         for directory in directorys:
             if directory.getName() == self.root.value.getName():
                 continue
-            directory.info()
+            print(str(directory))
     
     def print_info_preorder(self) -> None:
         """ print pre-order of detailed information """
@@ -158,7 +158,7 @@ class Organizer:
         for directory in directorys:
             if directory.getName() == self.root.value.getName():
                 continue
-            directory.info()
+            print(str(directory))
     
     def print_info_postorder(self) -> None:
         """ print post-order of detailed information """
@@ -166,7 +166,7 @@ class Organizer:
         for directory in directorys:
             if directory.getName() == self.root.value.getName():
                 continue
-            directory.info()
+            print(str(directory))
 
     def print_list(self) -> None:
         """ print list from left to right """
